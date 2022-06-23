@@ -1,8 +1,10 @@
+import Box from "@mui/material/Box";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Drawer from "../src/components/Drawer";
 import Loading from "../src/components/Loading";
+import ServicesSection from "../src/components/ServicesSection";
 import { auth, onAuthStateChanged } from "../src/firebase";
 
 export default function Home() {
@@ -20,12 +22,13 @@ export default function Home() {
   if (loading) return <Loading />;
 
   return (
-    <div>
+    <Box gridTemplateColumns="1fr 4fr" display="grid">
       <Head>
         <title>Dashboard</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Drawer />
-    </div>
+      <ServicesSection />
+    </Box>
   );
 }
