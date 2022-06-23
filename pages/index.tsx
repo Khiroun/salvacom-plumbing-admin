@@ -13,14 +13,14 @@ export default function Home() {
   useEffect(() => {
     const unsub = auth.onAuthStateChanged((user) => {
       if (!user) {
-        //router.push("login");
+        router.push("login");
       }
       setLoading(false);
     });
     return unsub;
   }, []);
   if (loading) return <Loading />;
-
+  if (!auth.currentUser) return null;
   return (
     <Box gridTemplateColumns="1fr 4fr" display="grid">
       <Head>

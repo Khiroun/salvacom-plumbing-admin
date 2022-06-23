@@ -3,7 +3,11 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Alert from "@mui/material/Alert";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "../../firebase";
+import {
+  auth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+} from "../../firebase";
 import Loading from "../Loading";
 import { useRouter } from "next/router";
 const LoginForm = () => {
@@ -11,7 +15,7 @@ const LoginForm = () => {
   const [error, setError] = useState("");
   const router = useRouter();
   useEffect(() => {
-    const unsub = onAuthStateChanged((user) => {
+    const unsub = auth.onAuthStateChanged((user) => {
       if (user) {
         router.push("/");
       }
