@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Drawer from "../src/components/Drawer";
 import Loading from "../src/components/Loading";
 import ServicesSection from "../src/components/ServicesSection";
-import { auth, onAuthStateChanged } from "../src/firebase";
+import { auth } from "../src/firebase";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
