@@ -25,6 +25,11 @@ const Drawer = () => {
             <ListItemText>Mes sites</ListItemText>
           </Link>
         </MenuItem>
+        <MenuItem>
+          <Link href="/commandes">
+            <ListItemText>Mes commandes</ListItemText>
+          </Link>
+        </MenuItem>
       </MenuList>
     </Box>
   );
