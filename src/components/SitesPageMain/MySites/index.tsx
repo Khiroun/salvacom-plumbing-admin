@@ -33,7 +33,6 @@ const MySites = () => {
       const res = [];
       snap.forEach((elem) => {
         const data = elem.data();
-        console.log(data);
         res.push({
           ...data,
           id: elem.id,

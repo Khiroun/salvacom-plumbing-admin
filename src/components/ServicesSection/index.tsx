@@ -18,7 +18,6 @@ const ServicesSection = () => {
     });
     return unsubscribe;
   }, []);
-  console.log({ services });
 
   return (
     <Container>

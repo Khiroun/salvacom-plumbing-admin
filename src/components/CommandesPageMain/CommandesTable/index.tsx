@@ -7,51 +7,6 @@ import TableBody from "@mui/material/TableBody";
 import { useEffect, useState } from "react";
 import { getAll } from "../../../firebase";
 
-import SiteTableCell from "./SiteTableCell";
-
-const getAddress = async (
-  latitude: number | string,
-  longitude: number | string
-) => {
-  const options = {
-    method: "GET",
-    headers: {
-      "X-RapidAPI-Key": "a5fe97e320mshbe04253044f8b5cp15279ejsne4358a1be896",
-      "X-RapidAPI-Host": "forward-reverse-geocoding.p.rapidapi.com",
-    },
-  };
-
-  const response = await fetch(
-    `https://forward-reverse-geocoding.p.rapidapi.com/v1/reverse?lat=${latitude}&lon=${longitude}&accept-language=en&polygon_threshold=0.0`,
-    options
-  );
-  const jsonResponse = await response.json();
-  const display_name = jsonResponse?.display_name;
-  if (display_name) return display_name;
-  return "";
-};
-
-const getAddress2 = async (
-  latitude: number | string,
-  longitude: number | string
-) => {
-  const options = {
-    method: "GET",
-    headers: {
-      "X-RapidAPI-Key": "a5fe97e320mshbe04253044f8b5cp15279ejsne4358a1be896",
-      "X-RapidAPI-Host": "trueway-geocoding.p.rapidapi.com",
-    },
-  };
-
-  const response = await fetch(
-    `https://trueway-geocoding.p.rapidapi.com/ReverseGeocode?location=${latitude}%2C-${longitude}&language=fr`,
-    options
-  );
-  const jsonResponse = await response.json();
-  const address = jsonResponse?.results && jsonResponse?.results[0]?.address;
-  return address;
-};
-
 const CommandesTable = () => {
   const [commandes, setCommandes] = useState([]);
   const [serviceNames, setServiceNames] = useState({});
@@ -71,22 +26,12 @@ const CommandesTable = () => {
     });
   }, []);
   useEffect(() => {
-    getAll("sites").then(async (data) => {
-      for (let i = 0; i < data.length; i++) {
-        const site = data[i];
-        if (!sitesNames[site.id]) {
-          let address = await getAddress(site.latitude, site.longitude);
-          if (!address) {
-            address = await getAddress2(site.latitude, site.longitude);
-          }
-          setSitesNames((prev) => {
-            return {
-              ...prev,
-              [site.id]: address,
-            };
-          });
-        }
-      }
+    getAll("sites").then((data) => {
+      const res = {};
+      data.forEach((site) => {
+        res[site.id] = site.siteName;
+      });
+      setSitesNames(res);
     });
   }, []);
 
@@ -105,14 +50,23 @@ const CommandesTable = () => {
         </TableHead>
         <TableBody>
           {commandes.map((commande) => {
+            const arr = commande.timestamp && commande.timestamp.split(" ");
+            const month = arr[1];
+            const day = arr[2];
+            const year = arr[3];
+            const time = arr[4];
+            const timeArr = time.split(":");
+            const hour = timeArr[0];
+            const minut = timeArr[1];
+            const displayTime = `${day}/${month}/${year} a ${hour}:${minut}`;
             return (
               <TableRow key={commande.id}>
                 <TableCell>{commande.name}</TableCell>
                 <TableCell>{commande.email}</TableCell>
                 <TableCell>{commande.phone}</TableCell>
                 <TableCell>{serviceNames[commande.selectedService]}</TableCell>
-                <SiteTableCell siteId={sitesNames[commande.selectedLoc]} />
-                <TableCell>{commande.timestamp}</TableCell>
+                <TableCell>{sitesNames[commande.selectedLoc]}</TableCell>
+                <TableCell>{displayTime}</TableCell>
               </TableRow>
             );
           })}

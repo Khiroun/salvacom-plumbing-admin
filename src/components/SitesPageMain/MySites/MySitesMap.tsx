@@ -28,7 +28,6 @@ const MySitesMap: FC<Props> = ({ open, sites, updateSite }) => {
     const id = site.id;
     updateSite(site);
     open();
-    console.log(id);
   };
   return (
     <Box maxWidth="100%" height="70vh">
