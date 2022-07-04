@@ -1,12 +1,14 @@
-import { TextField } from "@mui/material";
+import { CircularProgress, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { ReactBingmaps } from "react-bingmaps";
 import { addDocument } from "../../firebase";
 import { AiFillCamera } from "react-icons/ai";
+import getAddress from "../../utils/getAddress";
+import { uploadFile } from "../../firebase/storage";
 
 type Props = {
   open: boolean;
@@ -47,27 +49,42 @@ const AddSiteModal: FC<AddSiteModalProps> = ({ open, handleClose }) => {
   const [siteImages, setSiteImages] = useState([]);
   const [address, setAddress] = useState("");
   const [step, setStep] = useState(0);
-
-  const addLoc = async () => {
-    if (step === 1) {
-      await addDocument("sites", {
-        latitude: loc[0],
-        longitude: loc[1],
-        siteName,
-        siteImages,
+  const [adding, setAdding] = useState(false);
+  useEffect(() => {
+    if (loc) {
+      getAddress(loc[0], loc[1]).then((addr) => {
+        setAddress(addr);
       });
-      setLoc(null);
-      handleClose();
     }
-    if (step === 0) {
-      setStep(1);
-      //handleClose();
-    }
+  }, [loc]);
+  const addLoc = async () => {
+    setAdding(true);
+    const imageUrlsPromises = siteImages.map((si, i) => {
+      return uploadFile(`location${i}${Date()}`, si);
+    });
+    const imageUrls = await Promise.all(imageUrlsPromises);
+    await addDocument("sites", {
+      latitude: loc[0],
+      longitude: loc[1],
+      siteName,
+      images: imageUrls,
+      address,
+    });
+    setLoc(null);
+    setSiteName("");
+    setSiteImages([]);
+    setStep(0);
+    setAdding(false);
+    handleClose();
+  };
+  const nextClicked = () => {
+    setStep(1);
   };
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style}>
-        {step === 0 && (
+        {adding && <CircularProgress />}
+        {!adding && step === 0 && (
           <>
             <Typography variant="h6" component="h2">
               Séléctionnez sur la carte
@@ -88,13 +105,13 @@ const AddSiteModal: FC<AddSiteModalProps> = ({ open, handleClose }) => {
               )}
             </Box>
             {loc && (
-              <Button variant="contained" size="large" onClick={addLoc}>
-                Ajouter
+              <Button variant="contained" size="large" onClick={nextClicked}>
+                Suivant
               </Button>
             )}
           </>
         )}
-        {step === 1 && (
+        {!adding && step === 1 && (
           <>
             <Typography variant="h6" component="h2">
               Informations sur le site
@@ -125,6 +142,14 @@ const AddSiteModal: FC<AddSiteModalProps> = ({ open, handleClose }) => {
                     style={{
                       display: "none",
                     }}
+                    onChange={(e) => {
+                      const fileList = e.target.files;
+                      const files: File[] = [];
+                      for (let i = 0; i < fileList.length; i++) {
+                        files.push(fileList.item(i));
+                      }
+                      setSiteImages(files);
+                    }}
                   />
                   <Button
                     variant="contained"
@@ -135,6 +160,9 @@ const AddSiteModal: FC<AddSiteModalProps> = ({ open, handleClose }) => {
                   </Button>
                 </label>
               </>
+              <Button variant="contained" size="large" onClick={addLoc}>
+                Ajouter
+              </Button>
             </Box>
           </>
         )}
