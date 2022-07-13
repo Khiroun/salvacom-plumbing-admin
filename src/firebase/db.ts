@@ -6,6 +6,8 @@ import {
   onSnapshot,
   deleteDoc,
   doc,
+  getDoc,
+  updateDoc,
 } from "firebase/firestore";
 import app from "./firebase";
 
@@ -29,4 +31,22 @@ export const addDocument = (collectionName: string, data: any) => {
 
 export const deleteDocument = (collectionName: string, id: string) => {
   return deleteDoc(doc(db, collectionName, id));
+};
+export const getDocument = async (collectionName: string, id: string) => {
+  const docRef = doc(db, collectionName, id);
+  const docSnap = await getDoc(docRef);
+  return {
+    id: docSnap.id,
+    ...docSnap.data(),
+  };
+};
+
+export const updateDocument = async (
+  collectionName: string,
+  id: string,
+  data: any
+) => {
+  const docRef = doc(db, collectionName, id);
+
+  return updateDoc(docRef, data);
 };

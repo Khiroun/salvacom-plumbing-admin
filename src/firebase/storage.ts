@@ -1,7 +1,7 @@
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import app from "./firebase";
 const storage = getStorage(app);
-export const uploadFile = async (name: string, file: any) => {
+export const uploadFile = async (name: string, file: File) => {
   const storageRef = ref(storage, name);
 
   // 'file' comes from the Blob or File API

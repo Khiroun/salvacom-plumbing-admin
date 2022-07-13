@@ -1,4 +1,6 @@
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+
 import { AiFillDelete } from "react-icons/ai";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -20,12 +22,9 @@ const DeleteButton: FC<Props> = ({ id }) => {
   };
   return (
     <>
-      <Button
-        startIcon={<AiFillDelete />}
-        variant="contained"
-        color="error"
-        onClick={() => setOpen(true)}
-      />
+      <IconButton color="error" onClick={() => setOpen(true)} href="">
+        <AiFillDelete />
+      </IconButton>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{"Supprimer le service"}</DialogTitle>
         <DialogContent>
