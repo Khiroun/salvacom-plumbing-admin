@@ -3,7 +3,6 @@ import {
   collection,
   getDocs,
   addDoc,
-  onSnapshot,
   deleteDoc,
   doc,
   getDoc,
@@ -35,10 +34,14 @@ export const deleteDocument = (collectionName: string, id: string) => {
 export const getDocument = async (collectionName: string, id: string) => {
   const docRef = doc(db, collectionName, id);
   const docSnap = await getDoc(docRef);
-  return {
+  const res: {
+    id: string;
+    [x: string]: any;
+  } = {
     id: docSnap.id,
     ...docSnap.data(),
   };
+  return res;
 };
 
 export const updateDocument = async (
