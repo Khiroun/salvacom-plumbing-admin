@@ -4,6 +4,7 @@ import Head from "next/head";
 import Drawer from "../../src/components/Drawer";
 import ServiceDetails from "../../src/components/ServiceDetails";
 import ServiceSites from "../../src/components/ServiceSites";
+import SubServices from "../../src/components/SubServices";
 
 const ServiceDetailsPage = () => {
   const router = useRouter();
@@ -19,6 +20,7 @@ const ServiceDetailsPage = () => {
       <div>
         <ServiceDetails serviceId={id} />
         <ServiceSites serviceId={id} />
+        <SubServices serviceId={id} />
       </div>
     </Box>
   );
