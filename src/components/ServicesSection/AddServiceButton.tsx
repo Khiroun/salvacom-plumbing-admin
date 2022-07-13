@@ -6,16 +6,13 @@ import SectionTitle from "../SectionTitle";
 import TextField from "@mui/material/TextField";
 import { AiFillCamera } from "react-icons/ai";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import { addDocument } from "../../firebase/db";
-import Loading from "../Loading";
 import { uploadFile } from "../../firebase/storage";
 const AddServiceButton = () => {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [price, setprice] = useState([1000, 10000]);
   const [loading, setLoading] = useState(false);
   const onImageChanged: ChangeEventHandler<HTMLInputElement> = (e) => {
     const image = e.target.files.length > 0 && e.target.files[0];
@@ -27,7 +24,6 @@ const AddServiceButton = () => {
     await addDocument("services", {
       name,
       description,
-      price,
       imageUrl,
     });
     setLoading(false);
@@ -88,39 +84,6 @@ const AddServiceButton = () => {
               />
             </Grid>
             <Grid item md={6} padding="1rem" position="relative">
-              <Box>
-                <Typography
-                  variant="caption"
-                  display="block"
-                  color="CaptionText"
-                >
-                  Prix
-                </Typography>
-                <TextField
-                  label="min"
-                  type="number"
-                  sx={{
-                    width: "45%",
-                    mr: 1,
-                  }}
-                  value={price[0]}
-                  onChange={(e) =>
-                    setprice([parseInt(e.target.value), price[1]])
-                  }
-                />
-                <TextField
-                  label="max"
-                  type="number"
-                  sx={{
-                    width: "45%",
-                  }}
-                  value={price[1]}
-                  onChange={(e) =>
-                    setprice([price[0], parseInt(e.target.value)])
-                  }
-                />
-              </Box>
-
               <label htmlFor="contained-button-file">
                 <input
                   accept="image/*"
