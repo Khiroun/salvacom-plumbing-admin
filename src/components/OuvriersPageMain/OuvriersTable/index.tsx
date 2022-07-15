@@ -12,14 +12,35 @@ import { getAll } from "../../../firebase";
 import SearchBar from "./SearchBar";
 const OuvriersTable = () => {
   const [ouvriers, setOuvriers] = useState([]);
+  const [search, setSearch] = useState("");
   useEffect(() => {
     getAll("ouvriers").then((res) => {
       setOuvriers(res);
     });
   }, []);
+  const tableData = ouvriers.filter((item) => {
+    if (item.lastName.toLowerCase().includes(search.toLowerCase())) {
+      return true;
+    }
+    if (item.firstName.toLowerCase().includes(search.toLowerCase())) {
+      return true;
+    }
+    if (item.description.toLowerCase().includes(search.toLowerCase())) {
+      return true;
+    }
+    if (item.email.toLowerCase().includes(search.toLowerCase())) {
+      return true;
+    }
+    if (item.phone.toLowerCase().includes(search.toLowerCase())) {
+      return true;
+    }
+    if (item.password.toLowerCase().includes(search.toLowerCase())) {
+      return true;
+    }
+  });
   return (
     <Paper>
-      <SearchBar />
+      <SearchBar search={search} setSearch={setSearch} />
       <TableContainer>
         <Table>
           <TableHead>
@@ -34,7 +55,7 @@ const OuvriersTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {ouvriers.map((ouvrier) => {
+            {tableData.map((ouvrier) => {
               return (
                 <TableRow key={ouvrier.id}>
                   <TableCell>{ouvrier.lastName}</TableCell>

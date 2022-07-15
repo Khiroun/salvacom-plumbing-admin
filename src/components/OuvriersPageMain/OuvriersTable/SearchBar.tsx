@@ -1,14 +1,16 @@
-import * as React from "react";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import { FaSearch } from "react-icons/fa";
-
-export default function SearchBar() {
+import { FC } from "react";
+type Props = {
+  search: string;
+  setSearch: (search: string) => void;
+};
+const SearchBar: FC<Props> = ({ search, setSearch }) => {
   return (
     <Paper
-      component="form"
       sx={{
         p: "2px 4px",
         display: "flex",
@@ -19,7 +21,8 @@ export default function SearchBar() {
       <InputBase
         sx={{ ml: 1, flex: 1 }}
         placeholder="Rechercher"
-        inputProps={{ "aria-label": "search google maps" }}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
       />
       <IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
         <FaSearch />
@@ -27,4 +30,5 @@ export default function SearchBar() {
       <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
     </Paper>
   );
-}
+};
+export default SearchBar;
