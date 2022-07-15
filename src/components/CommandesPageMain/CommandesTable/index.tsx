@@ -6,6 +6,7 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import { useEffect, useState } from "react";
 import { getAll } from "../../../firebase";
+import { Button } from "@mui/material";
 
 const CommandesTable = () => {
   const [commandes, setCommandes] = useState([]);
@@ -41,11 +42,13 @@ const CommandesTable = () => {
         <TableHead>
           <TableRow>
             <TableCell>Nom Et Prénom</TableCell>
-            <TableCell>Email</TableCell>
+            <TableCell>Adresse</TableCell>
             <TableCell>Téléphone</TableCell>
             <TableCell>Service</TableCell>
+            <TableCell>Sous service</TableCell>
             <TableCell>Site</TableCell>
             <TableCell>Envoyé le</TableCell>
+            <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -62,11 +65,21 @@ const CommandesTable = () => {
             return (
               <TableRow key={commande.id}>
                 <TableCell>{commande.name}</TableCell>
-                <TableCell>{commande.email}</TableCell>
+                <TableCell>{commande.address}</TableCell>
                 <TableCell>{commande.phone}</TableCell>
                 <TableCell>{serviceNames[commande.selectedService]}</TableCell>
+                <TableCell>{commande.selectedSubService}</TableCell>
                 <TableCell>{sitesNames[commande.selectedLoc]}</TableCell>
                 <TableCell>{displayTime}</TableCell>
+                <TableCell>
+                  <Button variant="contained">Valider</Button>
+                  <Button variant="contained" color="error">
+                    Annuler
+                  </Button>
+                  <Button variant="contained" color="warning">
+                    Modifier
+                  </Button>
+                </TableCell>
               </TableRow>
             );
           })}
