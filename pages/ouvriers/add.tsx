@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Head from "next/head";
+import AddOuvrierPageMain from "../../src/components/AddOuvrierPageMain";
 import Drawer from "../../src/components/Drawer";
-import OuvriersPageMain from "../../src/components/OuvriersPageMain";
 
 const add = () => {
   return (
@@ -11,7 +11,7 @@ const add = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Drawer />
-      <OuvriersPageMain />
+      <AddOuvrierPageMain />
     </Box>
   );
 };
