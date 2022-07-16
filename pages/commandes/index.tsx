@@ -1,16 +1,16 @@
 import Head from "next/head";
-import Drawer from "../src/components/Drawer";
+import Drawer from "../../src/components/Drawer";
 import Box from "@mui/material/Box";
-import CommandesPageMain from "../src/components/CommandesPageMain";
+import CommandesReceptionPageMain from "../../src/components/CommandesReceptionPageMain";
 const CommandesPage = () => {
   return (
     <Box gridTemplateColumns="1fr 4fr" display="grid">
       <Head>
-        <title>Mes commandes</title>
+        <title>Reception</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Drawer />
-      <CommandesPageMain />
+      <CommandesReceptionPageMain />
     </Box>
   );
 };

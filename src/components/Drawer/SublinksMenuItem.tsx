@@ -24,7 +24,7 @@ const SublinksMenuItem: FC<Props> = ({ link, text, subLinks }) => {
 
   return (
     <Box>
-      <StyledMenuItem active={path === link ? "true" : ""} key={text}>
+      <StyledMenuItem active={path.includes(link) ? "true" : ""} key={text}>
         <Link href={link}>
           <ListItemText>{text}</ListItemText>
         </Link>

@@ -8,6 +8,10 @@ const Drawer = () => {
   const theme = useTheme();
   const items = [
     {
+      text: "Mes services",
+      link: "/",
+    },
+    {
       text: "Mes ouvriers",
       link: "/ouvriers",
       subLinks: [
@@ -21,10 +25,7 @@ const Drawer = () => {
         },
       ],
     },
-    {
-      text: "Mes services",
-      link: "/",
-    },
+
     {
       text: "Mes sites",
       link: "/sites",
@@ -32,6 +33,24 @@ const Drawer = () => {
     {
       text: "Mes commandes",
       link: "/commandes",
+      subLinks: [
+        {
+          text: "Réception",
+          link: "/commandes",
+        },
+        {
+          text: "En attente de confirmation",
+          link: "/commandes/attente",
+        },
+        {
+          text: "Commande confirmée",
+          link: "/commandes/confirmed",
+        },
+        {
+          text: "Service fait",
+          link: "/commandes/done",
+        },
+      ],
     },
   ];
   return (

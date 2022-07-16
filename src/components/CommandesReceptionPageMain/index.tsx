@@ -9,7 +9,7 @@ const CommandesPageMain = () => {
       <SectionTitle>COMMANDES</SectionTitle>
       <Container>
         <Typography variant="h3" color="GrayText">
-          Mes commandes
+          Reception
         </Typography>
         <CommandesTable />
       </Container>
