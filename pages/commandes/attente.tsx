@@ -6,7 +6,7 @@ const Attente = () => {
   return (
     <Box gridTemplateColumns="1fr 4fr" display="grid">
       <Head>
-        <title>Reception</title>
+        <title>Commandes en attente</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Drawer />

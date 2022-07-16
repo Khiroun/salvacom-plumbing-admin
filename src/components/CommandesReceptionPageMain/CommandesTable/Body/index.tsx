@@ -42,7 +42,6 @@ const Body = () => {
       setSitesNames(res);
     });
   }, []);
-  console.log({ commandes });
   return (
     <TableBody>
       {commandes.map((commande) => {

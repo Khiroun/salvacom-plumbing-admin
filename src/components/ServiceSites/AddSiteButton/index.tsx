@@ -21,13 +21,11 @@ const AddSiteButton: FC<Props> = ({ serviceId }) => {
   useEffect(() => {
     getDocument("services", serviceId).then((res) => {
       const sites = res.sites;
-      console.log(res);
       if (sites) {
         setSelectedSites(sites);
       }
     });
   }, []);
-  console.log(selectedSites);
   return (
     <Container>
       <Button

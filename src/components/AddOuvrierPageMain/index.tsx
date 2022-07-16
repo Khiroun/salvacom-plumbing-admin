@@ -19,7 +19,6 @@ const AddOuvrierPageMain = () => {
     });
   };
   const submit = async () => {
-    console.log(data);
     await addDocument("ouvriers", data);
     router.push("/ouvriers");
   };
