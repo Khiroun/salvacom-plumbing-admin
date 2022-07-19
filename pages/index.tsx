@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Drawer from "../src/components/Drawer";
 import Loading from "../src/components/Loading";
+import Navbar from "../src/components/Navbar";
 import ServicesSection from "../src/components/ServicesSection";
 import { auth } from "../src/firebase";
 
@@ -22,13 +23,16 @@ export default function Home() {
   if (loading) return <Loading />;
   if (!auth.currentUser) return null;
   return (
-    <Box gridTemplateColumns="1fr 4fr" display="grid">
+    <>
       <Head>
         <title>Dashboard</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Drawer />
-      <ServicesSection />
-    </Box>
+      <Navbar />
+      <Box gridTemplateColumns="1fr 4fr" display="grid">
+        <Drawer />
+        <ServicesSection />
+      </Box>
+    </>
   );
 }
