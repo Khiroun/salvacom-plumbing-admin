@@ -1,19 +1,15 @@
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Alert from "@mui/material/Alert";
-import {
-  auth,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-} from "../../firebase";
-import Loading from "../Loading";
+import { auth } from "../../firebase";
 import { useRouter } from "next/router";
+import useLogin from "./useLogin";
+import Loading from "../Loading";
 const LoginForm = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const router = useRouter();
+  const { error, loading, handleSubmit } = useLogin();
   useEffect(() => {
     const unsub = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -22,24 +18,7 @@ const LoginForm = () => {
     });
     return unsub;
   }, []);
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setLoading(true);
-    setError("");
 
-    const data = new FormData(event.currentTarget);
-    const email = data.get("email");
-    const password = data.get("password");
-    if (typeof email !== "string") return;
-    if (typeof password !== "string") return;
-    signInWithEmailAndPassword(email, password)
-      .catch((e) => {
-        setError(e.message.replace("Firebase: Error", ""));
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
   if (loading) return <Loading />;
 
   return (

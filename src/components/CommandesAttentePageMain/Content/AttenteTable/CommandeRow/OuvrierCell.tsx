@@ -1,6 +1,6 @@
 import TableCell from "@mui/material/TableCell";
 import { FC, useEffect, useState } from "react";
-import { getDocument } from "../../../../firebase";
+import { getDocument } from "../../../../../firebase";
 type Props = {
   ouvrierId: string;
 };

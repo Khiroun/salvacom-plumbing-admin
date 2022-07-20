@@ -2,14 +2,17 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
-import Button from "@mui/material/Button";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../../../../firebase";
 import Wrapper from "./Wrapper";
-import OuvrierCell from "./OuvrierCell";
-import SiteCell from "./SiteCell";
-import ServiceCell from "./ServiceCell";
+import CommandeRow from "./CommandeRow";
 
 const AttenteTable = () => {
   const [commandes, setCommandes] = useState([]);
@@ -18,16 +21,16 @@ const AttenteTable = () => {
       collection(db, "commandes"),
       where("status", "==", "attente")
     );
-    getDocs(q).then((querySnapshot) => {
-      const res = [];
-      querySnapshot.forEach((doc) => {
-        res.push({
+    const unsub = onSnapshot(q, (res) => {
+      const commandes = res.docs.map((doc) => {
+        return {
           id: doc.id,
           ...doc.data(),
-        });
+        };
       });
-      setCommandes(res);
+      setCommandes(commandes);
     });
+    return unsub;
   }, []);
 
   return (
@@ -45,19 +48,7 @@ const AttenteTable = () => {
       </TableHead>
       <TableBody>
         {commandes.map((commande) => {
-          return (
-            <TableRow key={commande.id}>
-              <OuvrierCell ouvrierId={commande.ouvrier} />
-              <TableCell>{commande.name}</TableCell>
-              <TableCell>{commande.phone}</TableCell>
-              <SiteCell siteId={commande.selectedLoc} />
-              <ServiceCell siteId={commande.selectedService} />
-              <TableCell>{commande.selectedSubService}</TableCell>
-              <TableCell>
-                <Button>Valider</Button>
-              </TableCell>
-            </TableRow>
-          );
+          return <CommandeRow key={commande.id} commande={commande} />;
         })}
       </TableBody>
     </Wrapper>

@@ -56,7 +56,14 @@ const Drawer = () => {
   return (
     <Box bgcolor={theme.palette.grey[100]} minHeight="100vh">
       <Box padding="1rem" bgcolor={theme.palette.primary.dark}>
-        <Typography textAlign="center" variant="subtitle1" color="white">
+        <Typography
+          textAlign="center"
+          variant="subtitle1"
+          color="white"
+          component="a"
+          href="/"
+          display="block"
+        >
           DASHBOARD
         </Typography>
       </Box>
