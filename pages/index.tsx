@@ -1,7 +1,6 @@
 import Box from "@mui/material/Box";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Drawer from "../src/components/Drawer";
 import Loading from "../src/components/Loading";
@@ -9,20 +8,11 @@ import Navbar from "../src/components/Navbar";
 import OuvrierDashboard from "../src/components/OuvrierDashboard";
 import ServicesSection from "../src/components/ServicesSection";
 import { auth, db } from "../src/firebase";
+import useRedirectIfLoggedOut from "../src/hooks/useRedirectIfLoggedOut";
 
 export default function Home() {
-  const [loading, setLoading] = useState(true);
   const [userType, setUserType] = useState("");
-  const router = useRouter();
-  useEffect(() => {
-    const unsub = auth.onAuthStateChanged((user) => {
-      if (!user) {
-        router.push("login");
-      }
-      setLoading(false);
-    });
-    return unsub;
-  }, []);
+  const { loading } = useRedirectIfLoggedOut();
   useEffect(() => {
     const userEmail = auth.currentUser?.email;
     console.log({ userEmail });
