@@ -7,16 +7,24 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { collection, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { getAll } from "../../../firebase";
+import { db, getAll } from "../../../firebase";
+import OuvrierRow from "./OuvrierRow";
 import SearchBar from "./SearchBar";
 const OuvriersTable = () => {
   const [ouvriers, setOuvriers] = useState([]);
   const [search, setSearch] = useState("");
   useEffect(() => {
-    getAll("ouvriers").then((res) => {
+    const q = collection(db, "ouvriers");
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const res = [];
+      querySnapshot.forEach((doc) => {
+        res.push({ id: doc.id, ...doc.data() });
+      });
       setOuvriers(res);
     });
+    return unsubscribe;
   }, []);
   const tableData = ouvriers.filter((item) => {
     if (item.lastName.toLowerCase().includes(search.toLowerCase())) {
@@ -52,21 +60,12 @@ const OuvriersTable = () => {
               <TableCell>Téléphone</TableCell>
               <TableCell>Adresse</TableCell>
               <TableCell>Mot de passe</TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {tableData.map((ouvrier) => {
-              return (
-                <TableRow key={ouvrier.id}>
-                  <TableCell>{ouvrier.lastName}</TableCell>
-                  <TableCell>{ouvrier.firstName}</TableCell>
-                  <TableCell>{ouvrier.description}</TableCell>
-                  <TableCell>{ouvrier.email}</TableCell>
-                  <TableCell>{ouvrier.phone}</TableCell>
-                  <TableCell>{ouvrier.address}</TableCell>
-                  <TableCell>{ouvrier.password}</TableCell>
-                </TableRow>
-              );
+              return <OuvrierRow ouvrier={ouvrier} key={ouvrier.id} />;
             })}
           </TableBody>
         </Table>

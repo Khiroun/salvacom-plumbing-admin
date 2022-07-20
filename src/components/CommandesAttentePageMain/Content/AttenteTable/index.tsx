@@ -2,13 +2,10 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
-import {
-  collection,
-  getDocs,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
+import CircularProgress from "@mui/material/CircularProgress";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../../../../firebase";
 import Wrapper from "./Wrapper";
@@ -16,6 +13,7 @@ import CommandeRow from "./CommandeRow";
 
 const AttenteTable = () => {
   const [commandes, setCommandes] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const q = query(
       collection(db, "commandes"),
@@ -29,10 +27,25 @@ const AttenteTable = () => {
         };
       });
       setCommandes(commandes);
+      setLoading(false);
     });
     return unsub;
   }, []);
-
+  if (loading) return <CircularProgress />;
+  if (commandes.length === 0)
+    return (
+      <Paper
+        sx={{
+          width: "50%",
+          margin: "auto",
+          marginTop: "2rem",
+        }}
+      >
+        <Typography variant="h3" color="GrayText" textAlign="center">
+          Aucune commande en attente
+        </Typography>
+      </Paper>
+    );
   return (
     <Wrapper>
       <TableHead>
