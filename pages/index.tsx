@@ -15,7 +15,6 @@ export default function Home() {
   const { loading } = useRedirectIfLoggedOut();
   useEffect(() => {
     const userEmail = auth.currentUser?.email;
-    console.log({ userEmail });
     if (userEmail) {
       const q = query(
         collection(db, "ouvriers"),

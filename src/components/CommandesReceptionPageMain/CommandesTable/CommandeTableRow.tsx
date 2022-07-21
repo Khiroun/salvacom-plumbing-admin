@@ -1,9 +1,8 @@
-import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { FC, useEffect, useState } from "react";
-import { getAll, updateDocument } from "../../../../firebase";
+import { getAll, updateDocument } from "../../../firebase";
 import ActionCellContent from "./ActionCellContent";
 import { useRouter } from "next/router";
 
@@ -47,7 +46,7 @@ const CommandeTableRow: FC<Props> = ({
     }
   };
   return (
-    <TableRow>
+    <>
       <TableCell>
         <Select
           fullWidth
@@ -76,7 +75,7 @@ const CommandeTableRow: FC<Props> = ({
       <TableCell>
         <ActionCellContent valider={valider} />
       </TableCell>
-    </TableRow>
+    </>
   );
 };
 

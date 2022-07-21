@@ -19,7 +19,6 @@ const OuvrierDashboard = () => {
 
   useEffect(() => {
     const userEmail = auth.currentUser?.email;
-    console.log({ userEmail });
     if (userEmail) {
       const q = query(
         collection(db, "ouvriers"),
@@ -27,7 +26,10 @@ const OuvrierDashboard = () => {
       );
       getDocs(q).then((docs) => {
         if (!docs.empty) {
-          setOuvrier(docs.docs[0].data());
+          setOuvrier({
+            id: docs.docs[0].id,
+            ...docs.docs[0].data(),
+          });
         }
       });
     }
@@ -38,7 +40,7 @@ const OuvrierDashboard = () => {
       <Navbar />
       <Box gridTemplateColumns="1fr 4fr" display="grid">
         <Drawer title={ouvrierName} setCurrentTab={setCurrentTab} />
-        {currentTab === "attente" && <Attente />}
+        {currentTab === "attente" && <Attente ouvrier={ouvrier} />}
         {currentTab === "confirmed" && <Confirmed />}
         {currentTab === "done" && <Done />}
       </Box>

@@ -15,7 +15,7 @@ type Props = {
 const CommandeRow: FC<Props> = ({ commande }) => {
   const [deleting, setDeleting] = useState(false);
   return (
-    <TableRow>
+    <>
       <OuvrierCell ouvrierId={commande.ouvrier} />
       <TableCell>{commande.name}</TableCell>
       <TableCell>{commande.phone}</TableCell>
@@ -36,7 +36,7 @@ const CommandeRow: FC<Props> = ({ commande }) => {
           {deleting ? "Suppression..." : "Supprimer"}
         </Button>
       </TableCell>
-    </TableRow>
+    </>
   );
 };
 

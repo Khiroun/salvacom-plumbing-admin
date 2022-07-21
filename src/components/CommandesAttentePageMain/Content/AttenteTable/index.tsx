@@ -1,15 +1,11 @@
-import TableBody from "@mui/material/TableBody";
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../../../../firebase";
-import Wrapper from "./Wrapper";
 import CommandeRow from "./CommandeRow";
+import MyTable from "../../../MyTable";
 
 const AttenteTable = () => {
   const [commandes, setCommandes] = useState([]);
@@ -46,25 +42,21 @@ const AttenteTable = () => {
         </Typography>
       </Paper>
     );
+  const columns = [
+    "Ouvrier",
+    "Nom",
+    "Phone",
+    "Site",
+    "Service",
+    "Sous service",
+    "",
+  ];
   return (
-    <Wrapper>
-      <TableHead>
-        <TableRow>
-          <TableCell>Ouvrier</TableCell>
-          <TableCell>Nom</TableCell>
-          <TableCell>Phone</TableCell>
-          <TableCell>Site</TableCell>
-          <TableCell>Service</TableCell>
-          <TableCell>Sous service</TableCell>
-          <TableCell>Actions</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {commandes.map((commande) => {
-          return <CommandeRow key={commande.id} commande={commande} />;
-        })}
-      </TableBody>
-    </Wrapper>
+    <MyTable
+      columns={columns}
+      data={commandes}
+      renderRow={(commande) => <CommandeRow commande={commande} />}
+    />
   );
 };
 
