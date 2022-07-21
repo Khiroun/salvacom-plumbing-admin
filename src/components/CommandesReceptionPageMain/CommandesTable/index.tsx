@@ -3,7 +3,7 @@ import useGetCommandes from "./useGetCommandes";
 import CommandeTableRow from "./CommandeTableRow";
 
 const CommandesTable = () => {
-  const { commandes } = useGetCommandes();
+  const { commandes, loading } = useGetCommandes();
 
   const columns = [
     "Dispatch Ouvrier",
@@ -39,7 +39,14 @@ const CommandesTable = () => {
       />
     );
   };
-  return <MyTable columns={columns} data={commandes} renderRow={renderRow} />;
+  return (
+    <MyTable
+      columns={columns}
+      data={commandes}
+      renderRow={renderRow}
+      loading={loading}
+    />
+  );
 };
 
 export default CommandesTable;

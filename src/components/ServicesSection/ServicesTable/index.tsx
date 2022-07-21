@@ -6,8 +6,9 @@ import MyTable from "../../MyTable";
 
 type Props = {
   services: any[];
+  loading: boolean;
 };
-const ServicesTable: FC<Props> = ({ services }) => {
+const ServicesTable: FC<Props> = ({ services, loading }) => {
   const columns = ["Nom", "Description", ""];
   const renderRow = (service) => {
     return (
@@ -29,6 +30,13 @@ const ServicesTable: FC<Props> = ({ services }) => {
     );
   };
   const data = services ? services : [];
-  return <MyTable columns={columns} data={data} renderRow={renderRow} />;
+  return (
+    <MyTable
+      columns={columns}
+      data={data}
+      renderRow={renderRow}
+      loading={loading}
+    />
+  );
 };
 export default ServicesTable;

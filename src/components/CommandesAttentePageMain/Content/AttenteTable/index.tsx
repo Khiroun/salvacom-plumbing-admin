@@ -1,6 +1,3 @@
-import CircularProgress from "@mui/material/CircularProgress";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../../../../firebase";
@@ -27,21 +24,7 @@ const AttenteTable = () => {
     });
     return unsub;
   }, []);
-  if (loading) return <CircularProgress />;
-  if (commandes.length === 0)
-    return (
-      <Paper
-        sx={{
-          width: "50%",
-          margin: "auto",
-          marginTop: "2rem",
-        }}
-      >
-        <Typography variant="h3" color="GrayText" textAlign="center">
-          Aucune commande en attente
-        </Typography>
-      </Paper>
-    );
+
   const columns = [
     "Ouvrier",
     "Nom",
@@ -56,6 +39,7 @@ const AttenteTable = () => {
       columns={columns}
       data={commandes}
       renderRow={(commande) => <CommandeRow commande={commande} />}
+      loading={loading}
     />
   );
 };

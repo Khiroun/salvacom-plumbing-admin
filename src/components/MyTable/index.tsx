@@ -6,14 +6,17 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
+import CircularProgress from "@mui/material/CircularProgress";
+import Typography from "@mui/material/Typography";
 import SearchBar from "./SearchBar";
 
 type Props = {
   data: any[];
   columns: string[];
   renderRow: (row: any) => JSX.Element;
+  loading?: boolean;
 };
-const MyTable: FC<Props> = ({ data, columns, renderRow }) => {
+const MyTable: FC<Props> = ({ data, columns, renderRow, loading }) => {
   const [search, setSearch] = useState("");
   const tableData = [];
   data.forEach((item) => {
@@ -30,25 +33,42 @@ const MyTable: FC<Props> = ({ data, columns, renderRow }) => {
       tableData.push(item);
     }
   });
+  if (loading) return <CircularProgress />;
+  console.log(tableData);
+
   return (
     <Paper>
       <SearchBar search={search} setSearch={setSearch} />
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell key={column}>{column}</TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {tableData.map((item) => {
-              return <TableRow key={item.id}>{renderRow(item)}</TableRow>;
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {tableData.length === 0 ? (
+        <Paper
+          sx={{
+            width: "50%",
+            margin: "auto",
+            marginTop: "2rem",
+          }}
+        >
+          <Typography variant="h3" color="GrayText" textAlign="center">
+            Aucun résultat
+          </Typography>
+        </Paper>
+      ) : (
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell key={column}>{column}</TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {tableData.map((item) => {
+                return <TableRow key={item.id}>{renderRow(item)}</TableRow>;
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </Paper>
   );
 };

@@ -5,8 +5,9 @@ import MyTable from "../../MyTable";
 import OuvriersRowInner from "./OuvriersRowInner";
 const OuvriersTable = () => {
   const [ouvriers, setOuvriers] = useState([]);
- 
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
+    setLoading(true);
     const q = collection(db, "ouvriers");
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const res = [];
@@ -14,6 +15,7 @@ const OuvriersTable = () => {
         res.push({ id: doc.id, ...doc.data() });
       });
       setOuvriers(res);
+      setLoading(false);
     });
     return unsubscribe;
   }, []);
@@ -31,7 +33,14 @@ const OuvriersTable = () => {
     return <OuvriersRowInner ouvrier={row} />;
   };
 
-  return <MyTable columns={columns} data={ouvriers} renderRow={renderRow} />;
+  return (
+    <MyTable
+      columns={columns}
+      data={ouvriers}
+      renderRow={renderRow}
+      loading={loading}
+    />
+  );
 };
 
 export default OuvriersTable;

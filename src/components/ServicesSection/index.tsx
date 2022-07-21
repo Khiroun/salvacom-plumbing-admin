@@ -7,7 +7,9 @@ import SectionTitle from "../SectionTitle";
 import ServicesTable from "./ServicesTable";
 const ServicesSection = () => {
   const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
+    setLoading(true);
     const q = collection(db, "services");
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const res = [];
@@ -15,6 +17,7 @@ const ServicesSection = () => {
         res.push({ id: doc.id, ...doc.data() });
       });
       setServices(res);
+      setLoading(false);
     });
     return unsubscribe;
   }, []);
@@ -23,7 +26,7 @@ const ServicesSection = () => {
     <Container>
       <SectionTitle>SERVICES</SectionTitle>
       <AddServiceButton />
-      <ServicesTable services={services} />
+      <ServicesTable services={services} loading={loading} />
     </Container>
   );
 };
