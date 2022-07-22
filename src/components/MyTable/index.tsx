@@ -34,7 +34,6 @@ const MyTable: FC<Props> = ({ data, columns, renderRow, loading }) => {
     }
   });
   if (loading) return <CircularProgress />;
-  console.log(tableData);
 
   return (
     <Paper>

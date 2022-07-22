@@ -1,5 +1,11 @@
 import Box from "@mui/material/Box";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { auth, db } from "../../firebase";
 import Navbar from "../Navbar";
@@ -16,7 +22,7 @@ const OuvrierDashboard = () => {
     lastName: "",
   });
   const [currentTab, setCurrentTab] = useState("attente");
-
+  const [commandes, setCommandes] = useState([]);
   useEffect(() => {
     const userEmail = auth.currentUser?.email;
     if (userEmail) {
@@ -34,15 +40,38 @@ const OuvrierDashboard = () => {
       });
     }
   }, [auth.currentUser]);
+  useEffect(() => {
+    const ouvrierId = ouvrier.id;
+    if (ouvrierId) {
+      const q = query(
+        collection(db, "commandes"),
+        where("ouvrier", "==", ouvrierId)
+      );
+      onSnapshot(q, (snapshot) => {
+        const commandes = snapshot.docs.map((doc) => {
+          return {
+            id: doc.id,
+            ...doc.data(),
+          };
+        });
+        setCommandes(commandes);
+      });
+    }
+  }, [ouvrier]);
   const ouvrierName = ouvrier.firstName + " " + ouvrier.lastName;
+  const attenteCommandes = commandes.filter((c) => c.status === "attente");
+  const confirmedCommandes = commandes.filter((c) => c.status === "confirmed");
+  const doneCommandes = commandes.filter((c) => c.status === "done");
   return (
     <>
       <Navbar />
       <Box gridTemplateColumns="1fr 4fr" display="grid">
         <Drawer title={ouvrierName} setCurrentTab={setCurrentTab} />
-        {currentTab === "attente" && <Attente ouvrier={ouvrier} />}
-        {currentTab === "confirmed" && <Confirmed />}
-        {currentTab === "done" && <Done />}
+        {currentTab === "attente" && <Attente commandes={attenteCommandes} />}
+        {currentTab === "confirmed" && (
+          <Confirmed commandes={confirmedCommandes} />
+        )}
+        {currentTab === "done" && <Done commandes={doneCommandes} />}
       </Box>
     </>
   );
