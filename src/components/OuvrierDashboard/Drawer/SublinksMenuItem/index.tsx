@@ -10,8 +10,14 @@ type Props = {
     text: string;
   }[];
   setCurrentTab: (tab: string) => void;
+  currentTab: string;
 };
-const SublinksMenuItem: FC<Props> = ({ text, tabs, setCurrentTab }) => {
+const SublinksMenuItem: FC<Props> = ({
+  text,
+  tabs,
+  setCurrentTab,
+  currentTab,
+}) => {
   const [open, setOpen] = useState(true);
   const toggle = () => {
     setOpen((prev) => !prev);
@@ -19,7 +25,12 @@ const SublinksMenuItem: FC<Props> = ({ text, tabs, setCurrentTab }) => {
   return (
     <Box>
       <MyMenuItem text={text} toggle={toggle} />
-      <MyCollapse open={open} tabs={tabs} setCurrentTab={setCurrentTab} />
+      <MyCollapse
+        open={open}
+        tabs={tabs}
+        setCurrentTab={setCurrentTab}
+        currentTab={currentTab}
+      />
     </Box>
   );
 };

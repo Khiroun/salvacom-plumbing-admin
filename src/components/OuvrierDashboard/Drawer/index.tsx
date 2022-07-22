@@ -7,8 +7,9 @@ import { FC } from "react";
 type Props = {
   title: string;
   setCurrentTab: (tab: string) => void;
+  currentTab: string;
 };
-const Drawer: FC<Props> = ({ title, setCurrentTab }) => {
+const Drawer: FC<Props> = ({ title, setCurrentTab, currentTab }) => {
   const theme = useTheme();
   const tabs = [
     {
@@ -43,6 +44,7 @@ const Drawer: FC<Props> = ({ title, setCurrentTab }) => {
           text="Commandes"
           tabs={tabs}
           setCurrentTab={setCurrentTab}
+          currentTab={currentTab}
         />
       </MenuList>
     </Box>

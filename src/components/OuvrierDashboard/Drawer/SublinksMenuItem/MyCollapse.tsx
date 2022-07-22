@@ -10,8 +10,9 @@ type Props = {
     text: string;
   }[];
   setCurrentTab: (tab: string) => void;
+  currentTab: string;
 };
-const MyCollapse: FC<Props> = ({ open, tabs, setCurrentTab }) => {
+const MyCollapse: FC<Props> = ({ open, tabs, setCurrentTab, currentTab }) => {
   return (
     <Collapse in={open}>
       <MenuList
@@ -25,6 +26,10 @@ const MyCollapse: FC<Props> = ({ open, tabs, setCurrentTab }) => {
               key={tab.text + tab.id}
               onClick={() => {
                 setCurrentTab(tab.id);
+              }}
+              sx={{
+                backgroundColor: currentTab === tab.id ? "primary.dark" : "",
+                color: currentTab === tab.id ? "white" : "",
               }}
             >
               <>{tab.text}</>

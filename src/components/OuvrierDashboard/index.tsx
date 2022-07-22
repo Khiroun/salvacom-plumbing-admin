@@ -66,7 +66,11 @@ const OuvrierDashboard = () => {
     <>
       <Navbar />
       <Box gridTemplateColumns="1fr 4fr" display="grid">
-        <Drawer title={ouvrierName} setCurrentTab={setCurrentTab} />
+        <Drawer
+          title={ouvrierName}
+          setCurrentTab={setCurrentTab}
+          currentTab={currentTab}
+        />
         {currentTab === "attente" && <Attente commandes={attenteCommandes} />}
         {currentTab === "confirmed" && (
           <Confirmed commandes={confirmedCommandes} />
