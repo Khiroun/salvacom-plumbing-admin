@@ -4,10 +4,13 @@ import Collapse from "@mui/material/Collapse";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import { FC, useState } from "react";
+import DeleteButton from "./DeleteButton";
+import { deleteDocument } from "../../../firebase";
 type Props = {
   valider: () => Promise<void>;
+  commandeId: string;
 };
-const ActionCellContent: FC<Props> = ({ valider }) => {
+const ActionCellContent: FC<Props> = ({ valider, commandeId }) => {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -21,8 +24,9 @@ const ActionCellContent: FC<Props> = ({ valider }) => {
       <Collapse in={open}>
         <MenuList>
           <MenuItem onClick={valider}>Valider</MenuItem>
-          <MenuItem>Annuler</MenuItem>
+
           <MenuItem>Modifier</MenuItem>
+          <DeleteButton commandeId={commandeId} />
         </MenuList>
       </Collapse>
     </>

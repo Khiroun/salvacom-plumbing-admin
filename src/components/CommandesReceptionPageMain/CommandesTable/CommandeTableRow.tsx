@@ -73,7 +73,7 @@ const CommandeTableRow: FC<Props> = ({
       <TableCell>{site}</TableCell>
       <TableCell>{displayTime}</TableCell>
       <TableCell>
-        <ActionCellContent valider={valider} />
+        <ActionCellContent valider={valider} commandeId={id} />
       </TableCell>
     </>
   );
