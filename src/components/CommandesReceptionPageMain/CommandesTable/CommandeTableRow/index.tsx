@@ -1,10 +1,9 @@
 import TableCell from "@mui/material/TableCell";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import { FC, useEffect, useState } from "react";
-import { getAll, updateDocument } from "../../../firebase";
+import { getAll, updateDocument } from "../../../../firebase";
 import ActionCellContent from "./ActionCellContent";
 import { useRouter } from "next/router";
+import DispatchOuvrierCell from "./DispatchOuvrierCell";
 
 type Props = {
   id: string;
@@ -27,15 +26,9 @@ const CommandeTableRow: FC<Props> = ({
   site,
   displayTime,
 }) => {
-  const [ouvriers, setOuvriers] = useState([]);
   const [SelectedOuvrier, setSelectedOuvrier] = useState("");
   const router = useRouter();
 
-  useEffect(() => {
-    getAll("ouvriers").then((res) => {
-      setOuvriers(res);
-    });
-  }, []);
   const valider = async () => {
     if (SelectedOuvrier) {
       await updateDocument("commandes", id, {
@@ -47,24 +40,7 @@ const CommandeTableRow: FC<Props> = ({
   };
   return (
     <>
-      <TableCell>
-        <Select
-          fullWidth
-          onChange={(e) => {
-            setSelectedOuvrier(e.target.value);
-          }}
-          defaultValue=""
-        >
-          <MenuItem value=""></MenuItem>
-          {ouvriers.map((ouvrier) => {
-            return (
-              <MenuItem key={ouvrier.id} value={ouvrier.id}>
-                {ouvrier.email}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </TableCell>
+      <DispatchOuvrierCell setSelectedOuvrier={setSelectedOuvrier} />
       <TableCell>{name}</TableCell>
       <TableCell>{address}</TableCell>
       <TableCell>{phone}</TableCell>

@@ -5,7 +5,6 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import { FC, useState } from "react";
 import DeleteButton from "./DeleteButton";
-import { deleteDocument } from "../../../firebase";
 type Props = {
   valider: () => Promise<void>;
   commandeId: string;

@@ -4,7 +4,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import { FC, useState } from "react";
-import { deleteDocument } from "../../../firebase";
+import { deleteDocument } from "../../../../firebase";
 
 type Props = {
   commandeId: string;
