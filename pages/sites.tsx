@@ -18,7 +18,7 @@ const SitesPage = () => {
       <Navbar />
       <Box gridTemplateColumns="1fr 4fr" display="grid">
         <Head>
-          <title>Dashboard</title>
+          <title>Mes sites</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Drawer />

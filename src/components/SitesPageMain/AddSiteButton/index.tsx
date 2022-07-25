@@ -5,10 +5,10 @@ import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import { FC, useEffect, useState } from "react";
 import { ReactBingmaps } from "react-bingmaps";
-import { addDocument } from "../../firebase";
+import { addDocument, getAll } from "../../../firebase";
 import { AiFillCamera } from "react-icons/ai";
-import getAddress from "../../utils/getAddress";
-import { uploadFile } from "../../firebase/storage";
+import getAddress from "../../../utils/getAddress";
+import { uploadFile } from "../../../firebase/storage";
 
 type Props = {
   open: boolean;
@@ -175,6 +175,22 @@ type NoLocMapProps = {
   setLoc: (any) => void;
 };
 const NoLocMap: FC<NoLocMapProps> = ({ setLoc }) => {
+  const [pushPins, setPushPins] = useState([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    getAll("sites").then((sites) => {
+      setPushPins(
+        sites.map((site) => {
+          return {
+            location: [site.latitude, site.longitude],
+            option: { color: "green" },
+          };
+        })
+      );
+      setLoading(false);
+    });
+  }, []);
+  if (loading) return <CircularProgress />;
   return (
     <ReactBingmaps
       bingmapKey="Anx4mwLDKI3uWURZVzqDwyAy5SMpfR6Co1jd-NC2XkbkOHSgfZyiJrKvQlIEAcmN"
@@ -185,6 +201,7 @@ const NoLocMap: FC<NoLocMapProps> = ({ setLoc }) => {
           setLoc([loc.latitude, loc.longitude]);
         },
       }}
+      pushPins={pushPins}
     ></ReactBingmaps>
   );
 };
@@ -195,11 +212,28 @@ type LocMapProps = {
 };
 
 const LocMap: FC<LocMapProps> = ({ pushPins, setLoc }) => {
+  const [pps, setPps] = useState([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    getAll("sites").then((sites) => {
+      setPps(
+        sites.map((site) => {
+          return {
+            location: [site.latitude, site.longitude],
+            option: { color: "green" },
+          };
+        })
+      );
+      setLoading(false);
+    });
+  }, []);
+  if (loading) return <CircularProgress />;
+  const pp = [...pps, ...pushPins];
   return (
     <ReactBingmaps
       bingmapKey="Anx4mwLDKI3uWURZVzqDwyAy5SMpfR6Co1jd-NC2XkbkOHSgfZyiJrKvQlIEAcmN"
       center={[36.716, 3.003]}
-      pushPins={pushPins}
+      pushPins={pp}
       getLocation={{
         addHandler: "click",
         callback: (loc) => {
