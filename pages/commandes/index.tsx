@@ -6,6 +6,7 @@ import Navbar from "../../src/components/Navbar";
 import useRedirectIfLoggedOut from "../../src/hooks/useRedirectIfLoggedOut";
 import { CircularProgress } from "@mui/material";
 import { auth } from "../../src/firebase";
+import AdminPageContainer from "../../src/components/AdminPageContainer";
 const CommandesPage = () => {
   const { loading } = useRedirectIfLoggedOut();
   if (loading) {
@@ -21,8 +22,10 @@ const CommandesPage = () => {
           <title>Reception</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Drawer />
-        <CommandesReceptionPageMain />
+        <AdminPageContainer>
+          <Drawer />
+          <CommandesReceptionPageMain />
+        </AdminPageContainer>
       </Box>
     </>
   );

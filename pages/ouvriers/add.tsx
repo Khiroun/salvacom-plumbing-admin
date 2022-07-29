@@ -2,6 +2,7 @@ import { CircularProgress } from "@mui/material";
 import Box from "@mui/material/Box";
 import Head from "next/head";
 import AddOuvrierPageMain from "../../src/components/AddOuvrierPageMain";
+import AdminPageContainer from "../../src/components/AdminPageContainer";
 import Drawer from "../../src/components/Drawer";
 import Navbar from "../../src/components/Navbar";
 import { auth } from "../../src/firebase";
@@ -22,8 +23,10 @@ const add = () => {
           <title>Ajouter un Ouvrier</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Drawer />
-        <AddOuvrierPageMain />
+        <AdminPageContainer>
+          <Drawer />
+          <AddOuvrierPageMain />
+        </AdminPageContainer>
       </Box>
     </>
   );

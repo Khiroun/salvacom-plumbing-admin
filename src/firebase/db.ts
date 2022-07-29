@@ -7,6 +7,8 @@ import {
   doc,
   getDoc,
   updateDoc,
+  query,
+  where,
 } from "firebase/firestore";
 import app from "./firebase";
 
@@ -22,6 +24,25 @@ export const getAll = async (collectionName: string) => {
     });
   });
   return res;
+};
+
+export const getDocumentByField = async (
+  collectionName: string,
+  fieldName: string,
+  fieldValue: string
+) => {
+  const q = query(
+    collection(db, collectionName),
+    where(fieldName, "==", fieldValue)
+  );
+  const docs = await getDocs(q);
+  if (docs.docs.length === 0) {
+    return null;
+  }
+  return {
+    id: docs.docs[0].id,
+    ...docs.docs[0].data(),
+  };
 };
 
 export const addDocument = (collectionName: string, data: any) => {

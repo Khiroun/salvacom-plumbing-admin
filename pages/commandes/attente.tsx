@@ -6,6 +6,7 @@ import CommandesAttentePageMain from "../../src/components/CommandesAttentePageM
 import Navbar from "../../src/components/Navbar";
 import useRedirectIfLoggedOut from "../../src/hooks/useRedirectIfLoggedOut";
 import { auth } from "../../src/firebase";
+import AdminPageContainer from "../../src/components/AdminPageContainer";
 const Attente = () => {
   const { loading } = useRedirectIfLoggedOut();
   if (loading) {
@@ -20,8 +21,10 @@ const Attente = () => {
           <title>Commandes en attente</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Drawer />
-        <CommandesAttentePageMain />
+        <AdminPageContainer>
+          <Drawer />
+          <CommandesAttentePageMain />
+        </AdminPageContainer>
       </Box>
     </>
   );

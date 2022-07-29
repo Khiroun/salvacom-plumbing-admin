@@ -1,6 +1,7 @@
 import { CircularProgress } from "@mui/material";
 import Box from "@mui/material/Box";
 import Head from "next/head";
+import AdminPageContainer from "../../src/components/AdminPageContainer";
 import Drawer from "../../src/components/Drawer";
 import Navbar from "../../src/components/Navbar";
 import OuvriersPageMain from "../../src/components/OuvriersPageMain";
@@ -21,8 +22,10 @@ const PageOuvriers = () => {
           <title>Mes ouvriers</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Drawer />
-        <OuvriersPageMain />
+        <AdminPageContainer>
+          <Drawer />
+          <OuvriersPageMain />
+        </AdminPageContainer>
       </Box>
     </>
   );

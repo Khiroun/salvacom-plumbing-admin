@@ -6,6 +6,7 @@ import CommandesConfirmedPageMain from "../../src/components/CommandesConfirmedP
 import Navbar from "../../src/components/Navbar";
 import useRedirectIfLoggedOut from "../../src/hooks/useRedirectIfLoggedOut";
 import { auth } from "../../src/firebase";
+import AdminPageContainer from "../../src/components/AdminPageContainer";
 const Confirmed = () => {
   const { loading } = useRedirectIfLoggedOut();
   if (loading) {
@@ -20,8 +21,10 @@ const Confirmed = () => {
           <title>Commandes Confirmées</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Drawer />
-        <CommandesConfirmedPageMain />
+        <AdminPageContainer>
+          <Drawer />
+          <CommandesConfirmedPageMain />
+        </AdminPageContainer>
       </Box>
     </>
   );

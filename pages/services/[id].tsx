@@ -9,6 +9,7 @@ import Navbar from "../../src/components/Navbar";
 import useRedirectIfLoggedOut from "../../src/hooks/useRedirectIfLoggedOut";
 import { CircularProgress } from "@mui/material";
 import { auth } from "../../src/firebase";
+import AdminPageContainer from "../../src/components/AdminPageContainer";
 
 const ServiceDetailsPage = () => {
   const router = useRouter();
@@ -28,12 +29,14 @@ const ServiceDetailsPage = () => {
           <title>Dashboard</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Drawer />
-        <div>
-          <ServiceDetails serviceId={id} />
-          <ServiceSites serviceId={id} />
-          <SubServices serviceId={id} />
-        </div>
+        <AdminPageContainer>
+          <Drawer />
+          <div>
+            <ServiceDetails serviceId={id} />
+            <ServiceSites serviceId={id} />
+            <SubServices serviceId={id} />
+          </div>
+        </AdminPageContainer>
       </Box>
     </>
   );
