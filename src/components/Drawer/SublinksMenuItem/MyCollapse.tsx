@@ -13,6 +13,8 @@ type Props = {
   }[];
 };
 const MyCollapse: FC<Props> = ({ open, subLinks }) => {
+  const router = useRouter();
+  const path = router.asPath;
   return (
     <Collapse in={open}>
       <MenuList
@@ -22,7 +24,13 @@ const MyCollapse: FC<Props> = ({ open, subLinks }) => {
       >
         {subLinks.map((subLink) => {
           return (
-            <MenuItem key={subLink.text + subLink.link}>
+            <MenuItem
+              key={subLink.text + subLink.link}
+              sx={{
+                backgroundColor: path === subLink.link ? "primary.main" : "",
+                color: path === subLink.link ? "white" : "",
+              }}
+            >
               <Link href={subLink.link}>{subLink.text}</Link>
             </MenuItem>
           );
