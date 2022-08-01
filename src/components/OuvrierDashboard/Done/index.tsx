@@ -9,10 +9,18 @@ type Props = {
   commandes: any[];
 };
 const Done: FC<Props> = ({ commandes }) => {
-  const columns = ["Nom", "Phone", "Adresse", "Site", "Service", "Fait le"];
+  const columns = [
+    "Nom",
+    "Phone",
+    "Adresse",
+    "Site",
+    "Service",
+    "Prix",
+    "Fait le",
+  ];
   return (
     <div>
-      <SectionTitle>Commandes en attente</SectionTitle>
+      <SectionTitle>Services Faits</SectionTitle>
       <Container sx={{ marginTop: "2rem" }}>
         <MyTable
           columns={columns}

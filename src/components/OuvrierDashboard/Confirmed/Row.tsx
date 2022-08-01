@@ -8,8 +8,9 @@ type Props = {
   commande: {
     [key: string]: string;
   };
+  goToDonePage: () => void;
 };
-const Row: FC<Props> = ({ commande }) => {
+const Row: FC<Props> = ({ commande, goToDonePage }) => {
   const [updating, setUpdating] = useState(false);
   return (
     <>
@@ -18,7 +19,7 @@ const Row: FC<Props> = ({ commande }) => {
       <TableCell>{commande.address}</TableCell>
       <LocationCell siteId={commande.selectedLoc} />
       <ServiceCell serviceId={commande.selectedService} />
-
+      <TableCell>{commande.prix}</TableCell>
       <TableCell>
         <Button
           onClick={async () => {
@@ -28,6 +29,7 @@ const Row: FC<Props> = ({ commande }) => {
               doneDate: Date(),
             });
             setUpdating(false);
+            goToDonePage();
           }}
           disabled={updating}
         >

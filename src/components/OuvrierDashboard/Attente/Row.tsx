@@ -1,4 +1,4 @@
-import { Button, TableCell } from "@mui/material";
+import { Button, TableCell, TextField } from "@mui/material";
 import { FC, useState } from "react";
 import { updateDocument } from "../../../firebase";
 import LocationCell from "./LocationCell";
@@ -8,9 +8,11 @@ type Props = {
   commande: {
     [key: string]: string;
   };
+  goToConfirmedPage: () => void;
 };
-const Row: FC<Props> = ({ commande }) => {
+const Row: FC<Props> = ({ commande, goToConfirmedPage }) => {
   const [updating, setUpdating] = useState(false);
+  const [prix, setPrix] = useState(0);
   return (
     <>
       <TableCell>{commande.name}</TableCell>
@@ -18,17 +20,28 @@ const Row: FC<Props> = ({ commande }) => {
       <TableCell>{commande.address}</TableCell>
       <LocationCell siteId={commande.selectedLoc} />
       <ServiceCell serviceId={commande.selectedService} />
-
+      <TableCell>
+        <TextField
+          label="Prix"
+          type="number"
+          value={prix}
+          onChange={(e) => {
+            setPrix(parseInt(e.target.value));
+          }}
+        />
+      </TableCell>
       <TableCell>
         <Button
           onClick={async () => {
             setUpdating(true);
             await updateDocument("commandes", commande.id, {
               status: "confirmed",
+              prix: prix,
             });
             setUpdating(false);
+            goToConfirmedPage();
           }}
-          disabled={updating}
+          disabled={!prix || updating}
         >
           {updating ? "En cours..." : "Confirmer"}
         </Button>

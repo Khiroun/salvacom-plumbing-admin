@@ -62,6 +62,12 @@ const OuvrierDashboard = () => {
   const attenteCommandes = commandes.filter((c) => c.status === "attente");
   const confirmedCommandes = commandes.filter((c) => c.status === "confirmed");
   const doneCommandes = commandes.filter((c) => c.status === "done");
+  const goToConfirmedPage = () => {
+    setCurrentTab("confirmed");
+  };
+  const goToDonePage = () => {
+    setCurrentTab("done");
+  };
   return (
     <>
       <Navbar />
@@ -71,9 +77,17 @@ const OuvrierDashboard = () => {
           setCurrentTab={setCurrentTab}
           currentTab={currentTab}
         />
-        {currentTab === "attente" && <Attente commandes={attenteCommandes} />}
+        {currentTab === "attente" && (
+          <Attente
+            commandes={attenteCommandes}
+            goToConfirmedPage={goToConfirmedPage}
+          />
+        )}
         {currentTab === "confirmed" && (
-          <Confirmed commandes={confirmedCommandes} />
+          <Confirmed
+            commandes={confirmedCommandes}
+            goToDonePage={goToDonePage}
+          />
         )}
         {currentTab === "done" && <Done commandes={doneCommandes} />}
       </Box>

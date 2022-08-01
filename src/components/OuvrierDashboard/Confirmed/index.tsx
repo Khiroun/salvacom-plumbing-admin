@@ -7,18 +7,19 @@ import Row from "./Row";
 
 type Props = {
   commandes: any[];
+  goToDonePage: () => void;
 };
-const Confirmed: FC<Props> = ({ commandes }) => {
-  const columns = ["Nom", "Phone", "Adresse", "Site", "Service", ""];
+const Confirmed: FC<Props> = ({ commandes, goToDonePage }) => {
+  const columns = ["Nom", "Phone", "Adresse", "Site", "Service", "Prix", ""];
   return (
     <div>
-      <SectionTitle>Commandes en attente</SectionTitle>
+      <SectionTitle>Commandes Confirmées</SectionTitle>
       <Container sx={{ marginTop: "2rem" }}>
         <MyTable
           columns={columns}
           data={commandes}
           renderRow={(commande) => {
-            return <Row commande={commande} />;
+            return <Row commande={commande} goToDonePage={goToDonePage} />;
           }}
         />
       </Container>

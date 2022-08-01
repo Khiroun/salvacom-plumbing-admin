@@ -7,8 +7,9 @@ import Row from "./Row";
 
 type Props = {
   commandes: any[];
+  goToConfirmedPage: () => void;
 };
-const Attente: FC<Props> = ({ commandes }) => {
+const Attente: FC<Props> = ({ commandes, goToConfirmedPage }) => {
   const columns = ["Nom", "Phone", "Adresse", "Site", "Service", ""];
   return (
     <div>
@@ -18,7 +19,9 @@ const Attente: FC<Props> = ({ commandes }) => {
           columns={columns}
           data={commandes}
           renderRow={(commande) => {
-            return <Row commande={commande} />;
+            return (
+              <Row commande={commande} goToConfirmedPage={goToConfirmedPage} />
+            );
           }}
         />
       </Container>
