@@ -6,7 +6,7 @@ import OuvrierCell from "./OuvrierCell";
 import SiteCell from "./SiteCell";
 import ServiceCell from "./ServiceCell";
 import { FC, useState } from "react";
-import { deleteDocument } from "../../../../../firebase";
+import { deleteDocument, updateDocument } from "../../../../../firebase";
 type Props = {
   commande: {
     [key: string]: string;
@@ -14,6 +14,7 @@ type Props = {
 };
 const CommandeRow: FC<Props> = ({ commande }) => {
   const [deleting, setDeleting] = useState(false);
+  const [validating, setValidating] = useState(false);
   return (
     <>
       <OuvrierCell ouvrierId={commande.ouvrier} />
@@ -23,7 +24,18 @@ const CommandeRow: FC<Props> = ({ commande }) => {
       <ServiceCell siteId={commande.selectedService} />
       <TableCell>{commande.selectedSubService}</TableCell>
       <TableCell>
-        <Button>Valider</Button>
+        <Button
+          disabled={validating}
+          onClick={async () => {
+            setValidating(true);
+            await updateDocument("commandes", commande.id, {
+              status: "confirmed",
+            });
+            setValidating(false);
+          }}
+        >
+          {validating ? "Validation..." : "Valider"}
+        </Button>
         <Button
           color="error"
           onClick={async () => {

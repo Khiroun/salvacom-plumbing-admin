@@ -22,19 +22,6 @@ const CommandeRow: FC<Props> = ({ commande }) => {
       <SiteCell siteId={commande.selectedLoc} />
       <ServiceCell siteId={commande.selectedService} />
       <TableCell>{commande.selectedSubService}</TableCell>
-      <TableCell>
-        <Button
-          color="error"
-          onClick={async () => {
-            setDeleting(true);
-            await deleteDocument("commandes", commande.id);
-            setDeleting(false);
-          }}
-          disabled={deleting}
-        >
-          {deleting ? "Suppression..." : "Supprimer"}
-        </Button>
-      </TableCell>
     </>
   );
 };

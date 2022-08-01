@@ -8,10 +8,7 @@ const AttenteTable = () => {
   const [commandes, setCommandes] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const q = query(
-      collection(db, "commandes"),
-      where("status", "==", "confirmed")
-    );
+    const q = query(collection(db, "commandes"), where("status", "==", "done"));
     const unsub = onSnapshot(q, (res) => {
       const commandes = res.docs.map((doc) => {
         return {
@@ -32,7 +29,6 @@ const AttenteTable = () => {
     "Site",
     "Service",
     "Sous service",
-    "",
   ];
   return (
     <MyTable
