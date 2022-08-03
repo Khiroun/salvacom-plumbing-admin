@@ -1,8 +1,6 @@
 import { Box } from "@mui/material";
-import { collection, onSnapshot } from "firebase/firestore";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { ReactBingmaps } from "react-bingmaps";
-import { db, deleteDocument } from "../../../firebase";
 
 type Props = {
   open: () => void;

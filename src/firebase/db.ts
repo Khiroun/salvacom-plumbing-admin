@@ -9,7 +9,9 @@ import {
   updateDoc,
   query,
   where,
+  onSnapshot,
 } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import app from "./firebase";
 
 export const db = getFirestore(app);
@@ -24,6 +26,25 @@ export const getAll = async (collectionName: string) => {
     });
   });
   return res;
+};
+
+export const useGetAllSnapshot = (collectionName: string) => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setLoading(true);
+    const q = collection(db, collectionName);
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const res = [];
+      querySnapshot.forEach((doc) => {
+        res.push({ id: doc.id, ...doc.data() });
+      });
+      setData(res);
+      setLoading(false);
+    });
+    return unsubscribe;
+  }, []);
+  return { data, loading };
 };
 
 export const getDocumentByField = async (

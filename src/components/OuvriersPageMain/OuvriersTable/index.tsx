@@ -1,24 +1,8 @@
-import { collection, onSnapshot } from "firebase/firestore";
-import { useEffect, useState } from "react";
-import { db } from "../../../firebase";
+import { useGetAllSnapshot } from "../../../firebase";
 import MyTable from "../../MyTable";
 import OuvriersRowInner from "./OuvriersRowInner";
 const OuvriersTable = () => {
-  const [ouvriers, setOuvriers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setLoading(true);
-    const q = collection(db, "ouvriers");
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const res = [];
-      querySnapshot.forEach((doc) => {
-        res.push({ id: doc.id, ...doc.data() });
-      });
-      setOuvriers(res);
-      setLoading(false);
-    });
-    return unsubscribe;
-  }, []);
+  const { data, loading } = useGetAllSnapshot("ouvriers");
   const columns = [
     "Nom",
     "Prénom",
@@ -36,7 +20,7 @@ const OuvriersTable = () => {
   return (
     <MyTable
       columns={columns}
-      data={ouvriers}
+      data={data}
       renderRow={renderRow}
       loading={loading}
     />

@@ -1,16 +1,16 @@
 import MySitesMap from "./MySitesMap";
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Content from "./Content";
-import { collection, onSnapshot } from "firebase/firestore";
-import { db, deleteDocument } from "../../../firebase";
+import { deleteDocument, useGetAllSnapshot } from "../../../firebase";
 import { CircularProgress } from "@mui/material";
+import SitesTable from "./SitesTable";
 
 const MySites = () => {
   const [isopen, setIsOpen] = useState(false);
-  const [sites, setSites] = useState([]);
   const [selectedSite, setSelectedSite] = useState({});
   const [deleting, setDeleting] = useState(false);
+  const { data } = useGetAllSnapshot("sites");
   const deleteSite = async (id: string) => {
     setDeleting(true);
     const userResponse = confirm("Voulez vous vraiment supprimer ce site?");
@@ -27,23 +27,10 @@ const MySites = () => {
   const close = () => {
     setIsOpen(false);
   };
-  useEffect(() => {
-    const ref = collection(db, "sites");
-    const unsub = onSnapshot(ref, (snap) => {
-      const res = [];
-      snap.forEach((elem) => {
-        const data = elem.data();
-        res.push({
-          ...data,
-          id: elem.id,
-        });
-      });
-      setSites(res);
-    });
-    return unsub;
-  }, []);
+
   return (
     <Wrapper>
+      <SitesTable sites={data} />
       <ContentContainer open={isopen}>
         {deleting ? (
           <CircularProgress />
@@ -53,7 +40,7 @@ const MySites = () => {
       </ContentContainer>
 
       <MapContainer>
-        <MySitesMap open={open} sites={sites} updateSite={setSelectedSite} />
+        <MySitesMap open={open} sites={data} updateSite={setSelectedSite} />
       </MapContainer>
     </Wrapper>
   );
@@ -71,4 +58,5 @@ const ContentContainer = styled.div<{ open: boolean }>`
 `;
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
 `;
