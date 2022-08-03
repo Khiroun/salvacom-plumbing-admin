@@ -7,7 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import MUITextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import { getDocument, updateDocument } from "../../../../../firebase";
+import { getDocument, updateDocument } from "../../../../../../firebase";
 import styled from "@emotion/styled";
 import ServiceInput from "./ServiceInput";
 import { CircularProgress } from "@mui/material";

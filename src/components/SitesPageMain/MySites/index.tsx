@@ -30,7 +30,7 @@ const MySites = () => {
 
   return (
     <Wrapper>
-      <SitesTable sites={data} />
+      <SitesTable sites={data} deleteSite={deleteSite} />
       <ContentContainer open={isopen}>
         {deleting ? (
           <CircularProgress />

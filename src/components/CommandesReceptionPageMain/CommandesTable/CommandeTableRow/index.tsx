@@ -1,6 +1,6 @@
 import TableCell from "@mui/material/TableCell";
-import { FC, useEffect, useState } from "react";
-import { getAll, updateDocument } from "../../../../firebase";
+import { FC, useState } from "react";
+import { updateDocument } from "../../../../firebase";
 import ActionCellContent from "./ActionCellContent";
 import { useRouter } from "next/router";
 import DispatchOuvrierCell from "./DispatchOuvrierCell";

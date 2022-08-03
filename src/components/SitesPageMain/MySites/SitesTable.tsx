@@ -3,22 +3,23 @@ import { FC, useState } from "react";
 import styled from "@emotion/styled";
 import MyTable from "../../MyTable";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import Dialog from "../../Dialog";
 type Props = {
   sites: Array<any>;
+  deleteSite: (id: string) => void;
 };
-const SitesTable: FC<Props> = ({ sites }) => {
-  const columns = ["Nom", "Adresse", "images"];
-  console.log(sites);
+const SitesTable: FC<Props> = ({ sites, deleteSite }) => {
+  const columns = ["Nom", "Adresse", "images", ""];
   return (
     <MyTable
       data={sites}
       columns={columns}
-      renderRow={(site) => <Row site={site} />}
+      renderRow={(site) => <Row site={site} deleteSite={deleteSite} />}
     />
   );
 };
 
-const Row = ({ site }) => {
+const Row = ({ site, deleteSite }) => {
   const [imageIndex, setImageIndex] = useState(0);
   const images = site.images ? site.images : [];
   const increment = () => {
@@ -54,6 +55,15 @@ const Row = ({ site }) => {
           </>
         )}
       </ImagesCell>
+      <TableCell>
+        <Dialog
+          buttonText="Supprimer"
+          title="Etes sous sur de vouloir supprimer ce site ?"
+          yesButtonStyle={{ color: "red" }}
+          action={() => deleteSite(site.id)}
+          buttonStyle={{ color: "red" }}
+        />
+      </TableCell>
     </>
   );
 };
