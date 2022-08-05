@@ -52,6 +52,9 @@ export default function Navbar() {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
+            <MenuItem href="/edit" LinkComponent="a">
+              <a href="/reset-password">Modifier le mot de passe</a>
+            </MenuItem>
             <MenuItem
               onClick={async () => {
                 handleClose();
