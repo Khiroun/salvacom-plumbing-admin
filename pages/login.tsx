@@ -1,4 +1,3 @@
-import * as React from "react";
 
 import LoginTop from "../src/components/LoginTop";
 import LoginWrapper from "../src/components/LoginWrapper";

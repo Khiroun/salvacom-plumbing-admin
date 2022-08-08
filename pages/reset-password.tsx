@@ -5,7 +5,12 @@ import CircularProgress from "@mui/material/CircularProgress";
 import CommandesAttentePageMain from "../src/components/CommandesAttentePageMain";
 import Navbar from "../src/components/Navbar";
 import useRedirectIfLoggedOut from "../src/hooks/useRedirectIfLoggedOut";
-import { auth, signOut } from "../src/firebase";
+import {
+  auth,
+  getDocumentByField,
+  signOut,
+  updateDocument,
+} from "../src/firebase";
 import AdminPageContainer from "../src/components/AdminPageContainer";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -29,8 +34,18 @@ const ResetPasswordPage = () => {
       return;
     }
     setEditing(true);
-    await updatePassword(currentUser, password);
     //await auth.currentUser.updatePassword(password);
+    const ouvrier = await getDocumentByField(
+      "ouvriers",
+      "email",
+      currentUser.email
+    );
+    console.log(ouvrier);
+    if (ouvrier) {
+      await updateDocument("ouvriers", ouvrier.id, { password: password });
+    }
+    await updatePassword(currentUser, password);
+
     setEditing(false);
     await signOut();
   };
