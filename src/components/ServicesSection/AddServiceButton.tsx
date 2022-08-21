@@ -20,7 +20,7 @@ const AddServiceButton = () => {
   };
   const submit = async () => {
     setLoading(true);
-    const imageUrl = await uploadFile(`service${Date()}`, image);
+    const imageUrl = image ? await uploadFile(`service${Date()}`, image) : "";
     await addDocument("services", {
       name,
       description,
