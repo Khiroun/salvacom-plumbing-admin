@@ -10,7 +10,15 @@ type Props = {
   goToConfirmedPage: () => void;
 };
 const Attente: FC<Props> = ({ commandes, goToConfirmedPage }) => {
-  const columns = ["Nom", "Phone", "Adresse", "Site", "Service", ""];
+  const columns = [
+    "Nom",
+    "Phone",
+    "Adresse",
+    "Site",
+    "Prix min-max",
+    "Prix",
+    "Actions",
+  ];
   return (
     <div>
       <SectionTitle>Commandes en attente</SectionTitle>

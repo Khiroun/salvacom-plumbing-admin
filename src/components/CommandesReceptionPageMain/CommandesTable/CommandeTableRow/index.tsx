@@ -10,10 +10,9 @@ type Props = {
   name: string;
   address: string;
   phone: string;
-  service: string;
-  subService: string;
   site: string;
   displayTime: string;
+  price: [min: number, max: number];
 };
 
 const CommandeTableRow: FC<Props> = ({
@@ -21,10 +20,9 @@ const CommandeTableRow: FC<Props> = ({
   name,
   address,
   phone,
-  service,
-  subService,
   site,
   displayTime,
+  price,
 }) => {
   const [SelectedOuvrier, setSelectedOuvrier] = useState("");
   const router = useRouter();
@@ -44,10 +42,11 @@ const CommandeTableRow: FC<Props> = ({
       <TableCell>{name}</TableCell>
       <TableCell>{address}</TableCell>
       <TableCell>{phone}</TableCell>
-      <TableCell>{service}</TableCell>
-      <TableCell>{subService}</TableCell>
       <TableCell>{site}</TableCell>
       <TableCell>{displayTime}</TableCell>
+      <TableCell>
+        {price[0]} - {price[1]}
+      </TableCell>
       <TableCell>
         <ActionCellContent valider={valider} commandeId={id} />
       </TableCell>

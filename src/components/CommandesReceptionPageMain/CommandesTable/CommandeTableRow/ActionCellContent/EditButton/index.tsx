@@ -9,25 +9,20 @@ import MUITextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { getDocument, updateDocument } from "../../../../../../firebase";
 import styled from "@emotion/styled";
-import ServiceInput from "./ServiceInput";
 import { CircularProgress } from "@mui/material";
-import SubServiceInput from "./SubServiceInput";
 
 type Props = {
   commandeId: string;
 };
 const EditButton: FC<Props> = ({ commandeId }) => {
   const [open, setOpen] = useState(false);
-  const [commande, setCommande] = useState<{
-    [x: string]: string;
-  }>({});
+
   const [newValues, setNewValues] = useState<{
     [x: string]: string;
   }>({});
   const [updating, setUpdating] = useState(false);
   useEffect(() => {
     getDocument("commandes", commandeId).then((commande) => {
-      setCommande(commande);
       setNewValues({
         ...commande,
       });
@@ -40,7 +35,6 @@ const EditButton: FC<Props> = ({ commandeId }) => {
     setOpen(true);
   };
   const modifier = async () => {
-    console.log(newValues);
     setUpdating(true);
     await updateDocument("commandes", commandeId, newValues);
     setUpdating(false);
@@ -94,27 +88,6 @@ const EditButton: FC<Props> = ({ commandeId }) => {
                 });
               }}
               type="tel"
-            />
-
-            <ServiceInput
-              serviceId={newValues.selectedService}
-              handleChange={(service: string) => {
-                setNewValues({
-                  ...newValues,
-                  selectedService: service,
-                });
-              }}
-              value={newValues.selectedService}
-            />
-            <SubServiceInput
-              serviceId={newValues.selectedService}
-              handleChange={(subService: string) => {
-                setNewValues({
-                  ...newValues,
-                  selectedSubService: subService,
-                });
-              }}
-              value={newValues.selectedSubService}
             />
           </Box>
         </DialogContent>

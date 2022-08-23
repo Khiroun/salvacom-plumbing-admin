@@ -1,28 +1,33 @@
-import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import Button from "@mui/material/Button";
 
 import OuvrierCell from "./OuvrierCell";
 import SiteCell from "./SiteCell";
-import ServiceCell from "./ServiceCell";
 import { FC, useState } from "react";
 import { deleteDocument, updateDocument } from "../../../../../firebase";
 type Props = {
   commande: {
-    [key: string]: string;
+    [key: string]: any;
   };
 };
 const CommandeRow: FC<Props> = ({ commande }) => {
   const [deleting, setDeleting] = useState(false);
   const [validating, setValidating] = useState(false);
+  const maxPrice = commande.selectedService.reduce((acc, curr) => {
+    return acc + curr.priceRange[1];
+  }, 0);
+  const minPrice = commande.selectedService.reduce((acc, curr) => {
+    return acc + curr.priceRange[0];
+  }, 0);
   return (
     <>
       <OuvrierCell ouvrierId={commande.ouvrier} />
       <TableCell>{commande.name}</TableCell>
       <TableCell>{commande.phone}</TableCell>
       <SiteCell siteId={commande.selectedLoc} />
-      <ServiceCell siteId={commande.selectedService} />
-      <TableCell>{commande.selectedSubService}</TableCell>
+      <TableCell>
+        {minPrice} - {maxPrice}
+      </TableCell>
       <TableCell>
         <Button
           disabled={validating}

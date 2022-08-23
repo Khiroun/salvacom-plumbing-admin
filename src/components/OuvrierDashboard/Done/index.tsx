@@ -9,15 +9,7 @@ type Props = {
   commandes: any[];
 };
 const Done: FC<Props> = ({ commandes }) => {
-  const columns = [
-    "Nom",
-    "Phone",
-    "Adresse",
-    "Site",
-    "Service",
-    "Prix",
-    "Fait le",
-  ];
+  const columns = ["Nom", "Phone", "Adresse", "Site", "Prix", "Fait le"];
   return (
     <div>
       <SectionTitle>Services Faits</SectionTitle>

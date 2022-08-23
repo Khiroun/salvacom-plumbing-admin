@@ -11,24 +11,29 @@ const CommandesTable = () => {
     "Nom Et Prénom",
     "Adresse",
     "Téléphone",
-    "Service",
-    "Sous service",
+
     "Site",
     "Envoyé le",
+    "Prix",
     "",
   ];
   const renderRow = (commande) => {
     const displayTime = formatDate(commande.timestamp);
+    const maxPrice = commande.selectedService.reduce((acc, curr) => {
+      return acc + curr.priceRange[1];
+    }, 0);
+    const minPrice = commande.selectedService.reduce((acc, curr) => {
+      return acc + curr.priceRange[0];
+    }, 0);
     return (
       <CommandeTableRow
         id={commande.id}
         name={commande.name}
         address={commande.address}
         phone={commande.phone}
-        service={commande.serviceName}
-        subService={commande.selectedSubService}
         site={commande.siteName}
         displayTime={displayTime}
+        price={[minPrice, maxPrice]}
       />
     );
   };

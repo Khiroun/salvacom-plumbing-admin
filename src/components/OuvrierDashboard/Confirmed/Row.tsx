@@ -2,24 +2,30 @@ import { Button, TableCell } from "@mui/material";
 import { FC, useState } from "react";
 import { updateDocument } from "../../../firebase";
 import LocationCell from "./LocationCell";
-import ServiceCell from "./ServiceCell";
 
 type Props = {
   commande: {
-    [key: string]: string;
+    [key: string]: any;
   };
   goToDonePage: () => void;
 };
 const Row: FC<Props> = ({ commande, goToDonePage }) => {
   const [updating, setUpdating] = useState(false);
+  const maxPrice = commande.selectedService.reduce((acc, curr) => {
+    return acc + curr.priceRange[1];
+  }, 0);
+  const minPrice = commande.selectedService.reduce((acc, curr) => {
+    return acc + curr.priceRange[0];
+  }, 0);
   return (
     <>
       <TableCell>{commande.name}</TableCell>
       <TableCell>{commande.phone}</TableCell>
       <TableCell>{commande.address}</TableCell>
       <LocationCell siteId={commande.selectedLoc} />
-      <ServiceCell serviceId={commande.selectedService} />
-      <TableCell>{commande.prix}</TableCell>
+      <TableCell>
+        {minPrice} - {maxPrice}
+      </TableCell>
       <TableCell>
         <Button
           onClick={async () => {

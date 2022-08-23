@@ -10,7 +10,7 @@ type Props = {
   goToDonePage: () => void;
 };
 const Confirmed: FC<Props> = ({ commandes, goToDonePage }) => {
-  const columns = ["Nom", "Phone", "Adresse", "Site", "Service", "Prix", ""];
+  const columns = ["Nom", "Phone", "Adresse", "Site", "Prix", ""];
   return (
     <div>
       <SectionTitle>Commandes Confirmées</SectionTitle>

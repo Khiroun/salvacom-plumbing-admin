@@ -8,8 +8,6 @@ import {
 import { useEffect, useState } from "react";
 import { db, getAll } from "../../../firebase";
 
-const getCommandes = async () => {};
-
 const useGetCommandes = () => {
   const [commandes, setCommandes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,11 +24,6 @@ const useGetCommandes = () => {
           ...doc.data(),
         };
       });
-      const servicesDocs = await getAll("services");
-      const serviceNames = {};
-      servicesDocs.forEach((service) => {
-        serviceNames[service.id] = service.name;
-      });
 
       const sitesDocs = await getAll("sites");
       const sitesNames = {};
@@ -41,7 +34,6 @@ const useGetCommandes = () => {
       res = res.map((commande) => {
         return {
           ...commande,
-          serviceName: serviceNames[commande.selectedService],
           siteName: sitesNames[commande.selectedLoc],
         };
       });

@@ -40,7 +40,6 @@ const ResetPasswordPage = () => {
       "email",
       currentUser.email
     );
-    console.log(ouvrier);
     if (ouvrier) {
       await updateDocument("ouvriers", ouvrier.id, { password: password });
     }

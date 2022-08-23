@@ -22,14 +22,7 @@ const AttenteTable = () => {
     return unsub;
   }, []);
 
-  const columns = [
-    "Ouvrier",
-    "Nom",
-    "Phone",
-    "Site",
-    "Service",
-    "Sous service",
-  ];
+  const columns = ["Ouvrier", "Nom", "Phone", "Site"];
   return (
     <MyTable
       columns={columns}

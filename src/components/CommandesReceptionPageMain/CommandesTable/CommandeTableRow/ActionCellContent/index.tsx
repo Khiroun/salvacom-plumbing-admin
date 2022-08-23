@@ -1,9 +1,6 @@
-import { AiFillSetting } from "react-icons/ai";
-import IconButton from "@mui/material/IconButton";
-import Collapse from "@mui/material/Collapse";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
-import { FC, useState } from "react";
+import { FC } from "react";
 import DeleteButton from "./DeleteButton";
 import EditButton from "./EditButton";
 type Props = {
@@ -11,24 +8,12 @@ type Props = {
   commandeId: string;
 };
 const ActionCellContent: FC<Props> = ({ valider, commandeId }) => {
-  const [open, setOpen] = useState(false);
   return (
-    <>
-      <IconButton
-        onClick={() => {
-          setOpen((prev) => !prev);
-        }}
-      >
-        <AiFillSetting />
-      </IconButton>
-      <Collapse in={open}>
-        <MenuList>
-          <MenuItem onClick={valider}>Valider</MenuItem>
-          <EditButton commandeId={commandeId} />
-          <DeleteButton commandeId={commandeId} />
-        </MenuList>
-      </Collapse>
-    </>
+    <MenuList>
+      <MenuItem onClick={valider}>Valider</MenuItem>
+      <EditButton commandeId={commandeId} />
+      <DeleteButton commandeId={commandeId} />
+    </MenuList>
   );
 };
 
