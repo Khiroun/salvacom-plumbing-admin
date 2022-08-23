@@ -1,6 +1,7 @@
 import { TableCell } from "@mui/material";
 import { FC } from "react";
 import formatDate from "../../../utils/formatDate";
+import CommandeDetailsModal from "../../CommandeDetailsModal";
 import LocationCell from "./LocationCell";
 
 type Props = {
@@ -27,6 +28,9 @@ const Row: FC<Props> = ({ commande }) => {
 
       <TableCell>
         {commande.doneDate ? formatDate(commande.doneDate) : ""}
+      </TableCell>
+      <TableCell>
+        <CommandeDetailsModal commande={commande} />
       </TableCell>
     </>
   );

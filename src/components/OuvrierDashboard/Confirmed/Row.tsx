@@ -1,6 +1,7 @@
 import { Button, TableCell } from "@mui/material";
 import { FC, useState } from "react";
 import { updateDocument } from "../../../firebase";
+import CommandeDetailsModal from "../../CommandeDetailsModal";
 import LocationCell from "./LocationCell";
 
 type Props = {
@@ -41,6 +42,7 @@ const Row: FC<Props> = ({ commande, goToDonePage }) => {
         >
           {updating ? "En cours..." : "Service terminé"}
         </Button>
+        <CommandeDetailsModal commande={commande} />
       </TableCell>
     </>
   );

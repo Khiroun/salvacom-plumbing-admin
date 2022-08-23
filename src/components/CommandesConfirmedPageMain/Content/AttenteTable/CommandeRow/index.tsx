@@ -5,6 +5,7 @@ import OuvrierCell from "./OuvrierCell";
 import SiteCell from "./SiteCell";
 import { FC, useState } from "react";
 import { deleteDocument } from "../../../../../firebase";
+import CommandeDetailsModal from "../../../../CommandeDetailsModal";
 type Props = {
   commande: {
     [key: string]: any;
@@ -39,6 +40,7 @@ const CommandeRow: FC<Props> = ({ commande }) => {
         >
           {deleting ? "Suppression..." : "Supprimer"}
         </Button>
+        <CommandeDetailsModal commande={commande} />
       </TableCell>
     </>
   );
