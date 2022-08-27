@@ -1,6 +1,7 @@
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import SectionTitle from "../SectionTitle";
+import TotalPrice from "../TotalPrice";
 import CommandesTable from "./CommandesTable";
 
 const CommandesPageMain = () => {

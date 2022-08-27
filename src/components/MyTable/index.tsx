@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import SearchBar from "./SearchBar";
 import { Button } from "@mui/material";
 import { useReactToPrint } from "react-to-print";
+import TotalPrice from "../TotalPrice";
 
 type Props = {
   data: any[];
@@ -44,9 +45,32 @@ const MyTable: FC<Props> = ({ data, columns, renderRow, loading }) => {
     content: reactToPrintContent,
   });
   if (loading) return <CircularProgress />;
-
+  console.log(tableData);
+  const priceMinMax = [0, 0];
+  tableData.map((item) => {
+    let minPrice = 0;
+    let maxPrice = 0;
+    const selectedService = item.selectedService;
+    if (selectedService) {
+      console.log({ selectedService });
+      selectedService.map((s) => {
+        minPrice += s.priceRange[0];
+        maxPrice += s.priceRange[1];
+      });
+    }
+    priceMinMax[0] += minPrice;
+    priceMinMax[1] += maxPrice;
+  });
+  console.log(priceMinMax);
   return (
     <Paper>
+      {priceMinMax[0] > 0 && (
+        <TotalPrice
+          minPrice={priceMinMax[0]}
+          maxPrice={priceMinMax[1]}
+          moyPrice={(priceMinMax[0] + priceMinMax[1]) / 2}
+        />
+      )}
       <SearchBar search={search} setSearch={setSearch} />
       {tableData.length === 0 ? (
         <Paper
