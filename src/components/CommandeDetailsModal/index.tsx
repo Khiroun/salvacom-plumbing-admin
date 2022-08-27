@@ -1,11 +1,14 @@
 import { FC, useEffect, useState } from "react";
-import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { getDocument } from "../../firebase";
+import Button from "@mui/material/Button";
+import { getDocument, updateDocument } from "../../firebase";
+
+import Notes from "./Notes";
+import NotesInput from "./NotesInput";
 
 type Props = {
   commande: any;
@@ -14,6 +17,9 @@ const CommandeDetailsModal: FC<Props> = ({ commande }) => {
   const [open, setOpen] = useState(false);
   const [ouvrierName, setOuvrierName] = useState("");
   const [location, setLocation] = useState("");
+  const [notes, setNotes] = useState(() =>
+    commande.notes ? commande.notes : []
+  );
   useEffect(() => {
     commande.ouvrier &&
       getDocument("ouvriers", commande.ouvrier).then((ouvrier) => {
@@ -33,31 +39,49 @@ const CommandeDetailsModal: FC<Props> = ({ commande }) => {
   const handleClose = () => {
     setOpen(false);
   };
-  console.log(commande);
   return (
     <div>
       <Button onClick={handleClickOpen}>Détails</Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Détails de la commande</DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText component="div">
             Nom : {commande.name}
             <br />
             Tél: {commande.phone}
             <br />
             Adresse: {commande.address}
             <br />
-            Ouvrier: {ouvrierName}
-            <br />
+            {ouvrierName && (
+              <>
+                Ouvrier: {ouvrierName} <br />
+              </>
+            )}
             Site : {location}
             <br />
-            Service: <br />
-            <ul>
+            Services: <br />
+            <span>
               {commande.selectedService &&
                 commande.selectedService.map((service) => {
-                  return <li>{service.name}</li>;
+                  return (
+                    <span
+                      key={service.name}
+                      style={{
+                        display: "block",
+                        marginLeft: "1em",
+                      }}
+                    >
+                      {service.name}
+                    </span>
+                  );
                 })}
-            </ul>
+            </span>
+            {commande.notes && <Notes notes={notes} />}
+            <NotesInput
+              notes={notes}
+              commandeId={commande.id}
+              setNotes={setNotes}
+            />
           </DialogContentText>
         </DialogContent>
         <DialogActions>

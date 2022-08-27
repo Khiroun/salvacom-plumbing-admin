@@ -10,7 +10,7 @@ type Props = {
   commandeId: string;
 };
 const ActionCellContent: FC<Props> = ({ valider, commandeId }) => {
-  const [commande, setCommande] = useState({});
+  const [commande, setCommande] = useState<any>({});
   useEffect(() => {
     getDocument("commandes", commandeId).then((commande) => {
       setCommande(commande);
@@ -21,6 +21,7 @@ const ActionCellContent: FC<Props> = ({ valider, commandeId }) => {
       <MenuItem onClick={valider}>Valider</MenuItem>
       <EditButton commandeId={commandeId} />
       <DeleteButton commandeId={commandeId} />
+
       <CommandeDetailsModal commande={commande} />
     </MenuList>
   );
