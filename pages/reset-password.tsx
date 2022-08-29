@@ -1,8 +1,6 @@
 import Head from "next/head";
-import Drawer from "../src/components/Drawer";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
-import CommandesAttentePageMain from "../src/components/CommandesAttentePageMain";
 import Navbar from "../src/components/Navbar";
 import useRedirectIfLoggedOut from "../src/hooks/useRedirectIfLoggedOut";
 import {
@@ -11,17 +9,22 @@ import {
   signOut,
   updateDocument,
 } from "../src/firebase";
-import AdminPageContainer from "../src/components/AdminPageContainer";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
-import { updatePassword } from "firebase/auth";
+import {
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+  updatePassword,
+} from "firebase/auth";
+import { useRouter } from "next/router";
 const ResetPasswordPage = () => {
   const [editing, setEditing] = useState(false);
   const [password, setPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const router = useRouter();
   const { loading } = useRedirectIfLoggedOut();
   if (loading) {
     return <CircularProgress />;
@@ -34,20 +37,31 @@ const ResetPasswordPage = () => {
       return;
     }
     setEditing(true);
-    //await auth.currentUser.updatePassword(password);
-    const ouvrier = await getDocumentByField(
-      "ouvriers",
-      "email",
-      currentUser.email
+    const cred = EmailAuthProvider.credential(currentUser.email, oldPassword);
+    const m = await reauthenticateWithCredential(currentUser, cred).catch(
+      (e) => {
+        setEditing(false);
+        alert("Not de passe erroné");
+      }
     );
-    if (ouvrier) {
-      await updateDocument("ouvriers", ouvrier.id, { password: password });
-    }
-    await updatePassword(currentUser, password);
+    if (m) {
+      const ouvrier = await getDocumentByField(
+        "ouvriers",
+        "email",
+        currentUser.email
+      );
+      if (ouvrier) {
+        await updateDocument("ouvriers", ouvrier.id, { password: password });
+      }
+      await updatePassword(currentUser, password);
 
-    setEditing(false);
-    await signOut();
+      setEditing(false);
+      alert("Mot de passe modifié");
+      router.push("/");
+    }
+    //await auth.currentUser.updatePassword(password);
   };
+  console.log({ currentUser });
   return (
     <>
       <Navbar />
@@ -73,6 +87,15 @@ const ResetPasswordPage = () => {
             sx={{ mt: 1 }}
             onSubmit={handleSubmit}
           >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="Ancien mot de passe"
+              type="password"
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
+            />
             <TextField
               margin="normal"
               required
