@@ -16,6 +16,7 @@ const ActionCellContent: FC<Props> = ({ valider, commandeId }) => {
       setCommande(commande);
     });
   }, []);
+  commande.id && console.log(commande);
   return (
     <MenuList>
       <MenuItem onClick={valider}>Valider</MenuItem>

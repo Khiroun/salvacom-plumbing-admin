@@ -1,4 +1,5 @@
 import { Button, TableCell } from "@mui/material";
+import TextField from "@mui/material/TextField";
 import { FC, useState } from "react";
 import { updateDocument } from "../../../firebase";
 import CommandeDetailsModal from "../../CommandeDetailsModal";
@@ -12,6 +13,7 @@ type Props = {
 };
 const Row: FC<Props> = ({ commande, goToDonePage }) => {
   const [updating, setUpdating] = useState(false);
+  const [prix, setPrix] = useState(0);
   const maxPrice = commande.selectedService.reduce((acc, curr) => {
     return acc + curr.priceRange[1];
   }, 0);
@@ -28,17 +30,28 @@ const Row: FC<Props> = ({ commande, goToDonePage }) => {
         {minPrice} - {maxPrice}
       </TableCell>
       <TableCell>
+        <TextField
+          label="Prix"
+          type="number"
+          value={prix}
+          onChange={(e) => {
+            setPrix(parseInt(e.target.value));
+          }}
+        />
+      </TableCell>
+      <TableCell>
         <Button
           onClick={async () => {
             setUpdating(true);
             await updateDocument("commandes", commande.id, {
               status: "done",
               doneDate: Date(),
+              prix: prix,
             });
             setUpdating(false);
             goToDonePage();
           }}
-          disabled={updating}
+          disabled={updating || !prix}
         >
           {updating ? "En cours..." : "Service terminé"}
         </Button>

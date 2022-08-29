@@ -22,9 +22,7 @@ const Row: FC<Props> = ({ commande }) => {
       <TableCell>{commande.phone}</TableCell>
       <TableCell>{commande.address}</TableCell>
       <LocationCell siteId={commande.selectedLoc} />
-      <TableCell>
-        {minPrice} - {maxPrice}
-      </TableCell>
+      <TableCell>{commande.prix}</TableCell>
 
       <TableCell>
         {commande.doneDate ? formatDate(commande.doneDate) : ""}

@@ -61,7 +61,6 @@ const ResetPasswordPage = () => {
     }
     //await auth.currentUser.updatePassword(password);
   };
-  console.log({ currentUser });
   return (
     <>
       <Navbar />

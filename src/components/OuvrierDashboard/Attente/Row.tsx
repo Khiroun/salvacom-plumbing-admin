@@ -12,7 +12,7 @@ type Props = {
 };
 const Row: FC<Props> = ({ commande, goToConfirmedPage }) => {
   const [updating, setUpdating] = useState(false);
-  const [prix, setPrix] = useState(0);
+
   const maxPrice = commande.selectedService.reduce((acc, curr) => {
     return acc + curr.priceRange[1];
   }, 0);
@@ -28,28 +28,18 @@ const Row: FC<Props> = ({ commande, goToConfirmedPage }) => {
       <TableCell>
         {minPrice} - {maxPrice}
       </TableCell>
-      <TableCell>
-        <TextField
-          label="Prix"
-          type="number"
-          value={prix}
-          onChange={(e) => {
-            setPrix(parseInt(e.target.value));
-          }}
-        />
-      </TableCell>
+
       <TableCell>
         <Button
           onClick={async () => {
             setUpdating(true);
             await updateDocument("commandes", commande.id, {
               status: "confirmed",
-              prix: prix,
             });
             setUpdating(false);
             goToConfirmedPage();
           }}
-          disabled={!prix || updating}
+          disabled={updating}
         >
           {updating ? "En cours..." : "Confirmer"}
         </Button>

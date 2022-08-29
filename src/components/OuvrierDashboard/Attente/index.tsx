@@ -16,7 +16,6 @@ const Attente: FC<Props> = ({ commandes, goToConfirmedPage }) => {
     "Adresse",
     "Site",
     "Prix min-max",
-    "Prix",
     "Actions",
   ];
   return (

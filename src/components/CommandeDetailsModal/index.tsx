@@ -20,6 +20,13 @@ const CommandeDetailsModal: FC<Props> = ({ commande }) => {
   const [notes, setNotes] = useState(() =>
     commande.notes ? commande.notes : []
   );
+  const subServices = [];
+  commande.selectedService &&
+    commande.selectedService.map((subService) => {
+      if (!subServices.includes(subService.name))
+        subServices.push(subService.name);
+    });
+
   useEffect(() => {
     commande.ouvrier &&
       getDocument("ouvriers", commande.ouvrier).then((ouvrier) => {
@@ -61,20 +68,19 @@ const CommandeDetailsModal: FC<Props> = ({ commande }) => {
             <br />
             Services: <br />
             <span>
-              {commande.selectedService &&
-                commande.selectedService.map((service) => {
-                  return (
-                    <span
-                      key={service.name}
-                      style={{
-                        display: "block",
-                        marginLeft: "1em",
-                      }}
-                    >
-                      {service.name}
-                    </span>
-                  );
-                })}
+              {subServices.map((serviceName) => {
+                return (
+                  <span
+                    key={serviceName}
+                    style={{
+                      display: "block",
+                      marginLeft: "1em",
+                    }}
+                  >
+                    {serviceName}
+                  </span>
+                );
+              })}
             </span>
             {commande.notes && <Notes notes={notes} />}
             <NotesInput

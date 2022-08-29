@@ -45,14 +45,12 @@ const MyTable: FC<Props> = ({ data, columns, renderRow, loading }) => {
     content: reactToPrintContent,
   });
   if (loading) return <CircularProgress />;
-  console.log(tableData);
   const priceMinMax = [0, 0];
   tableData.map((item) => {
     let minPrice = 0;
     let maxPrice = 0;
     const selectedService = item.selectedService;
     if (selectedService) {
-      console.log({ selectedService });
       selectedService.map((s) => {
         minPrice += s.priceRange[0];
         maxPrice += s.priceRange[1];
@@ -61,7 +59,6 @@ const MyTable: FC<Props> = ({ data, columns, renderRow, loading }) => {
     priceMinMax[0] += minPrice;
     priceMinMax[1] += maxPrice;
   });
-  console.log(priceMinMax);
   return (
     <Paper>
       {priceMinMax[0] > 0 && (
