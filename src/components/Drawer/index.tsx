@@ -50,6 +50,10 @@ const Drawer = () => {
           text: "Service fait",
           link: "/commandes/done",
         },
+        {
+          text: "Archives",
+          link: "/commandes/archived",
+        },
       ],
     },
   ];
