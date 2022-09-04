@@ -56,6 +56,10 @@ const Drawer = () => {
         },
       ],
     },
+    {
+      text: "Configuration du site",
+      link: "/settings",
+    },
   ];
   return (
     <Box bgcolor={theme.palette.grey[100]} minHeight="100vh">
