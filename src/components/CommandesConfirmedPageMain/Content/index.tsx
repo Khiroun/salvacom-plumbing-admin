@@ -10,8 +10,8 @@ const Content = () => {
       <Title />
       <AttenteTable />
       <Box display="flex" justifyContent="space-between">
-        <Link href="/commandes">Réception</Link>
-        <Link href="/commandes/confirmed">Commandes confirmées</Link>
+        <Link href="/commandes/attente">Attente</Link>
+        <Link href="/commandes/done">Services Faits</Link>
       </Box>
     </Container>
   );

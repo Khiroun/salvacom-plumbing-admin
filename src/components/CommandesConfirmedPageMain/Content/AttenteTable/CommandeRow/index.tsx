@@ -39,12 +39,15 @@ const CommandeRow: FC<Props> = ({ commande }) => {
           color="error"
           onClick={async () => {
             setDeleting(true);
-            await deleteDocument("commandes", commande.id);
+            await updateDocument("commandes", commande.id, {
+              status: "attente",
+            });
             setDeleting(false);
+            router.push("/commandes/attente");
           }}
           disabled={deleting}
         >
-          {deleting ? "Suppression..." : "Supprimer"}
+          {deleting ? "..." : "Annuler"}
         </Button>
         <Button
           onClick={async () => {
@@ -60,7 +63,7 @@ const CommandeRow: FC<Props> = ({ commande }) => {
             goToDonePage();
           }}
         >
-          Service Fait
+          {updating ? "..." : "Service Fait"}
         </Button>
         <CommandeDetailsModal commande={commande} />
       </TableCell>

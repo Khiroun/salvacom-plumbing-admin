@@ -6,6 +6,7 @@ import SiteCell from "./SiteCell";
 import { FC, useState } from "react";
 import { deleteDocument, updateDocument } from "../../../../../firebase";
 import CommandeDetailsModal from "../../../../CommandeDetailsModal";
+import { useRouter } from "next/router";
 type Props = {
   commande: {
     [key: string]: any;
@@ -14,6 +15,7 @@ type Props = {
 const CommandeRow: FC<Props> = ({ commande }) => {
   const [deleting, setDeleting] = useState(false);
   const [validating, setValidating] = useState(false);
+  const router = useRouter();
   const maxPrice = commande.selectedService.reduce((acc, curr) => {
     return acc + curr.priceRange[1];
   }, 0);
@@ -38,6 +40,7 @@ const CommandeRow: FC<Props> = ({ commande }) => {
               status: "confirmed",
             });
             setValidating(false);
+            router.push("/commandes/confirmed");
           }}
         >
           {validating ? "Validation..." : "Valider"}
@@ -46,12 +49,15 @@ const CommandeRow: FC<Props> = ({ commande }) => {
           color="error"
           onClick={async () => {
             setDeleting(true);
-            await deleteDocument("commandes", commande.id);
+            await updateDocument("commandes", commande.id, {
+              status: "reception",
+            });
             setDeleting(false);
+            router.push("/commandes");
           }}
           disabled={deleting}
         >
-          {deleting ? "Suppression..." : "Supprimer"}
+          {deleting ? "..." : "Annuler"}
         </Button>
         <CommandeDetailsModal commande={commande} />
       </TableCell>
