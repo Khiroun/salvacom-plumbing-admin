@@ -5,6 +5,7 @@ import {
   Box,
 } from "@mui/material";
 import { AiFillDownCircle } from "react-icons/ai";
+import HeadingSection from "./HeadingSection";
 import InformationsGenerales from "./InformationsGenerales";
 
 const RéglagesPageMain = () => {
@@ -33,7 +34,9 @@ const RéglagesPageMain = () => {
         <AccordionSummary expandIcon={<AiFillDownCircle size={25} />}>
           Heading
         </AccordionSummary>
-        <AccordionDetails>blabla</AccordionDetails>
+        <AccordionDetails>
+          <HeadingSection />
+        </AccordionDetails>
       </Accordion>
     </Box>
   );
