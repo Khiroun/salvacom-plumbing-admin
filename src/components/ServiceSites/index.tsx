@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import { FC } from "react";
 import SectionTitle from "../SectionTitle";
 import AddSiteButton from "./AddSiteButton";
@@ -8,8 +9,11 @@ type Props = {
 };
 const ServiceSites: FC<Props> = ({ serviceId }) => {
   return (
-    <div>
-      <SectionTitle>Sites</SectionTitle>
+    <div
+      style={{
+        marginTop: "1em",
+      }}
+    >
       <AddSiteButton serviceId={serviceId} />
       <SitesSection />
     </div>

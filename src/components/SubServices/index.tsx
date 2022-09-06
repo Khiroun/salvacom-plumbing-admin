@@ -1,5 +1,6 @@
 import {
   Button,
+  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -10,9 +11,11 @@ import {
 import Container from "@mui/material/Container";
 import { doc, onSnapshot } from "firebase/firestore";
 import { FC, useEffect, useState } from "react";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { db, updateDocument } from "../../firebase";
 import SectionTitle from "../SectionTitle";
 import AddSubServiceButton from "./AddSubServiceButton";
+import EditSubServiceButton from "./EditSubServiceButton";
 
 type Props = {
   serviceId: string;
@@ -52,8 +55,13 @@ const SubServices: FC<Props> = ({ serviceId }) => {
                   <TableCell>{subService.price[0]}</TableCell>
                   <TableCell>{subService.price[1]}</TableCell>
                   <TableCell>
-                    <Button
-                      variant="contained"
+                    <EditSubServiceButton
+                      serviceId={serviceId}
+                      name={subService.name}
+                      price={subService.price}
+                      subServices={subServices}
+                    />
+                    <IconButton
                       color="error"
                       onClick={async () => {
                         const newSubServices = subServices.filter(
@@ -64,8 +72,8 @@ const SubServices: FC<Props> = ({ serviceId }) => {
                         });
                       }}
                     >
-                      Supprimer
-                    </Button>
+                      <AiFillDelete />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               );
