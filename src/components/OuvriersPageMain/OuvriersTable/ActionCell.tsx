@@ -4,7 +4,7 @@ import Collapse from "@mui/material/Collapse";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import TableCell from "@mui/material/TableCell";
-import { AiFillSetting } from "react-icons/ai";
+import { AiOutlineEdit } from "react-icons/ai";
 import { deleteDocument } from "../../../firebase";
 
 type Props = {
@@ -20,7 +20,7 @@ const ActionCell: FC<Props> = ({ ouvrierId }) => {
           setOpen((prev) => !prev);
         }}
       >
-        <AiFillSetting />
+        <AiOutlineEdit color="black" />
       </IconButton>
       <Collapse in={open}>
         <MenuList>

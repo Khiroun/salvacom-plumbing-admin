@@ -1,6 +1,6 @@
 import { useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
-import { FC, useState } from "react";
+import { FC } from "react";
 type Props = {
   imageURL: string;
   updateImage: (imageFile: File) => void;
@@ -8,7 +8,7 @@ type Props = {
 const ImageSection: FC<Props> = ({ imageURL, updateImage }) => {
   const theme = useTheme();
   return (
-    <Box position="relative" minHeight="50vh">
+    <Box position="relative" minHeight={imageURL ? "50vh" : "inhirit"}>
       <input
         type="file"
         id={`service${imageURL}`}
@@ -46,7 +46,7 @@ const ImageSection: FC<Props> = ({ imageURL, updateImage }) => {
             borderRadius: "5px",
           }}
         >
-          Modifier
+          {imageURL ? "Modifier" : "Ajouter une image"}
         </div>
       </label>
     </Box>

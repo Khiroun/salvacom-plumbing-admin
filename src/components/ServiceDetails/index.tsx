@@ -10,7 +10,7 @@ type Props = {
 const ServiceDetails: FC<Props> = ({ serviceId }) => {
   return (
     <Container>
-      <SectionTitle>SERVICES</SectionTitle>
+      <SectionTitle>SERVICE</SectionTitle>
       <Content serviceId={serviceId} />
     </Container>
   );

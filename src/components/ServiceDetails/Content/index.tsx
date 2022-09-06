@@ -10,6 +10,7 @@ type Props = {
 };
 const Content: FC<Props> = ({ serviceId }) => {
   const [service, setService] = useState<any>({});
+  const imageURL = service.imageUrl;
   useEffect(() => {
     const docRef = doc(db, "services", serviceId);
     const unseb = onSnapshot(docRef, (res) => {
@@ -33,10 +34,11 @@ const Content: FC<Props> = ({ serviceId }) => {
         gridTemplateColumns: "2fr 3fr",
       }}
     >
-      <ImageSection imageURL={service.imageUrl} updateImage={updateImage} />
+      <ImageSection imageURL={imageURL} updateImage={updateImage} />
       <ServiceInfo
         serviceName={service.name}
         serviceDescription={service.description}
+        serviceId={service.id}
       />
     </Paper>
   );
